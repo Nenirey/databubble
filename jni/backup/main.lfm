@@ -1,0 +1,1026 @@
+object MainModule: TMainModule
+  MarginLeft = 0
+  MarginTop = 0
+  MarginRight = 0
+  MarginBottom = 0
+  Enabled = True
+  Left = 493
+  Top = 142
+  Width = 677
+  Height = 545
+  Text = 'Burbuja de datos'
+  ActivityMode = actMain
+  BackgroundColor = colbrDefault
+  ActionBarTitle = abtDefault
+  AnimationDurationIn = 1500
+  AnimationDurationOut = 1500
+  AnimationMode = animNone
+  OnCloseQuery = MainModuleCloseQuery
+  OnActivityResult = MainModuleActivityResult
+  OnJNIPrompt = MainModuleJNIPrompt
+  OnClose = MainModuleClose
+  OnCreateOptionMenu = MainModuleCreateOptionMenu
+  OnClickOptionMenuItem = MainModuleClickOptionMenuItem
+  OnActivityCreate = MainModuleActivityCreate
+  OnActivityPause = MainModuleActivityPause
+  object jPBubble: jPanel
+    MarginLeft = 0
+    MarginTop = 0
+    MarginRight = 0
+    MarginBottom = 0
+    Enabled = True
+    Left = 168
+    Top = 16
+    Width = 78
+    Height = 30
+    Visible = False
+    PosRelativeToAnchor = []
+    PosRelativeToParent = []
+    LayoutParamWidth = lpWrapContent
+    LayoutParamHeight = lpWrapContent
+    BackgroundColor = colbrBlack
+    MinPinchZoomFactor = 0.25
+    MaxPinchZoomFactor = 4
+    AnimationDurationIn = 1500
+    AnimationMode = animNone
+    OnDown = jPBubbleDown
+    OnClick = jPBubbleClick
+    object jtvBubble: jTextView
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 5
+      Top = 5
+      Width = 68
+      Height = 20
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpTop, rpLeft]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Vista previa'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+  end
+  object jPLogin: jPanel
+    MarginLeft = 0
+    MarginTop = 0
+    MarginRight = 0
+    MarginBottom = 0
+    Enabled = True
+    Left = 0
+    Top = 120
+    Width = 677
+    Height = 432
+    Visible = True
+    PosRelativeToAnchor = []
+    PosRelativeToParent = []
+    LayoutParamWidth = lpMatchParent
+    LayoutParamHeight = lpUseWeight
+    BackgroundColor = colbrDefault
+    MinPinchZoomFactor = 0.25
+    MaxPinchZoomFactor = 4
+    AnimationDurationIn = 1500
+    AnimationMode = animNone
+    OnFlingGesture = jPLoginFlingGesture
+    object jtvCubacel: jTextView
+      MarginLeft = 5
+      MarginTop = 100
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 212
+      Top = 113
+      Width = 253
+      Height = 20
+      Visible = True
+      Anchor = jtvInfo
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpCenterHorizontal]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Ingrese sus datos del portal mi.cubacel.net:'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+    object jtvUser: jTextView
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 212
+      Top = 143
+      Width = 106
+      Height = 20
+      Visible = True
+      Anchor = jtvCubacel
+      PosRelativeToAnchor = [raBelow, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Número (sin +53):'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+    object jetUser: jEditText
+      MarginLeft = 0
+      MarginTop = 0
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 212
+      Top = 168
+      Width = 338
+      Height = 39
+      Visible = True
+      Anchor = jtvUser
+      PosRelativeToAnchor = [raBelow, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpHalfOfParent
+      LayoutParamHeight = lpWrapContent
+      Alignment = taLeft
+      InputTypeEx = itxPhone
+      MaxTextLength = -1
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      HintTextColor = colbrDefault
+      ScrollBarStyle = scrNone
+      MaxLines = 1
+      HorScrollBar = True
+      VerScrollBar = True
+      WrappingLine = False
+      Editable = True
+      FontSizeUnit = unitDefault
+      CloseSoftInputOnEnter = True
+      CapSentence = False
+      CaptureBackPressed = False
+      GravityInParent = lgNone
+    end
+    object jtvPassword: jTextView
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 217
+      Top = 217
+      Width = 69
+      Height = 20
+      Visible = True
+      Anchor = jetUser
+      PosRelativeToAnchor = [raBelow, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Contraseña:'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+    object jetPassword: jEditText
+      MarginLeft = 0
+      MarginTop = 0
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 217
+      Top = 242
+      Width = 338
+      Height = 39
+      Visible = True
+      Anchor = jtvPassword
+      PosRelativeToAnchor = [raBelow, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpHalfOfParent
+      LayoutParamHeight = lpWrapContent
+      Alignment = taLeft
+      InputTypeEx = itxTextPassword
+      MaxTextLength = -1
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      HintTextColor = colbrDefault
+      ScrollBarStyle = scrNone
+      MaxLines = 1
+      HorScrollBar = True
+      VerScrollBar = True
+      WrappingLine = False
+      Editable = True
+      FontSizeUnit = unitDefault
+      CloseSoftInputOnEnter = True
+      CapSentence = False
+      CaptureBackPressed = False
+      GravityInParent = lgNone
+    end
+    object jbLogin: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 226
+      Top = 291
+      Width = 225
+      Height = 50
+      Visible = True
+      Anchor = jetPassword
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpCenterHorizontal]
+      LayoutParamWidth = lpOneThirdOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Acceder'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = jbLoginClick
+    end
+    object jtvInfo: jTextView
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 5
+      Top = 5
+      Width = 667
+      Height = 3
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpTop, rpLeft, rpRight]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+    object jbRegister: jButton
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 0
+      MarginBottom = 5
+      Enabled = True
+      Left = 226
+      Top = 351
+      Width = 225
+      Height = 50
+      Visible = True
+      Anchor = jbLogin
+      PosRelativeToAnchor = [raBelow, raAlignLeft, raAlignRight]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpOneFifthOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Registrarse'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = jbRegisterClick
+    end
+  end
+  object jPAppearance: jPanel
+    MarginLeft = 0
+    MarginTop = 0
+    MarginRight = 0
+    MarginBottom = 0
+    Enabled = True
+    Left = 0
+    Top = 228
+    Width = 677
+    Height = 288
+    Visible = False
+    PosRelativeToAnchor = []
+    PosRelativeToParent = []
+    LayoutParamWidth = lpMatchParent
+    LayoutParamHeight = lpUseWeight
+    BackgroundColor = colbrDefault
+    MinPinchZoomFactor = 0.25
+    MaxPinchZoomFactor = 4
+    AnimationDurationIn = 1500
+    AnimationMode = animNone
+    OnFlingGesture = jPAppearanceFlingGesture
+    object jtvTransparent: jTextView
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 0
+      Enabled = True
+      Left = 310
+      Top = 5
+      Width = 57
+      Height = 20
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpTop, rpCenterHorizontal]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Opacidad'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+    object jsbTransparent: jSeekBar
+      MarginLeft = 10
+      MarginTop = 0
+      MarginRight = 10
+      MarginBottom = 10
+      Enabled = True
+      Left = 10
+      Top = 25
+      Width = 657
+      Height = 23
+      Visible = True
+      Anchor = jtvTransparent
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpLeft, rpRight]
+      LayoutParamWidth = lpOneThirdOfParent
+      LayoutParamHeight = lpWrapContent
+      Max = 100
+      BackgroundColor = colbrDefault
+      GravityInParent = lgNone
+      OnProgressChanged = jsbTransparentProgressChanged
+    end
+    object jbHiddeBubble: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 5
+      Top = 233
+      Width = 83
+      Height = 50
+      Visible = True
+      Anchor = jbPreview
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpBottom, rpLeft]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Ocultar'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = jbHiddeBubbleClick
+    end
+    object jbShowBuuble: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 570
+      Top = 233
+      Width = 102
+      Height = 50
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpBottom, rpRight]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Minimizar'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = jbShowBuubleClick
+    end
+    object jtvFontSize: jTextView
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 245
+      Top = 63
+      Width = 186
+      Height = 20
+      Visible = True
+      Anchor = jsbTransparent
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpCenterHorizontal]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Tamaño de fuente (Por defecto)'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+    object jsbFontSize: jSeekBar
+      MarginLeft = 10
+      MarginTop = 0
+      MarginRight = 10
+      MarginBottom = 10
+      Enabled = True
+      Left = 10
+      Top = 88
+      Width = 657
+      Height = 23
+      Visible = True
+      Anchor = jtvFontSize
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpLeft, rpRight]
+      LayoutParamWidth = lpOneThirdOfParent
+      LayoutParamHeight = lpWrapContent
+      Max = 100
+      BackgroundColor = colbrDefault
+      GravityInParent = lgNone
+      OnProgressChanged = jsbFontSizeProgressChanged
+    end
+    object jtvBColor: jTextView
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 397
+      Top = 136
+      Width = 96
+      Height = 20
+      Visible = True
+      Anchor = jspBColor
+      PosRelativeToAnchor = [raToLeftOf, raAlignBaseline]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Color del fondo:'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+    object jTextView2: jTextView
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 403
+      Top = 186
+      Width = 90
+      Height = 20
+      Visible = True
+      Anchor = jspFColor
+      PosRelativeToAnchor = [raToLeftOf, raAlignBaseline]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Color del texto:'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+    object jspBColor: jSpinner
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 503
+      Top = 126
+      Width = 169
+      Height = 40
+      Visible = True
+      Anchor = jsbFontSize
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpRight]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Items.Strings = (
+        'Negro'
+        'Blanco'
+        'Azul'
+        'Rosa'
+      )
+      BackgroundColor = colbrDefault
+      SelectedFontColor = colbrDefault
+      DropListTextColor = colbrDefault
+      DropListBackgroundColor = colbrDefault
+      LastItemAsPrompt = False
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      Alignment = taCenter
+      TextTypeFace = tfNormal
+      SelectedIndex = 0
+      GravityInParent = lgNone
+      SelectedPaddingTop = 15
+      SelectedPaddingBottom = 5
+      OnItemSelected = jspBColorItemSelected
+    end
+    object jspFColor: jSpinner
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 503
+      Top = 176
+      Width = 169
+      Height = 40
+      Visible = True
+      Anchor = jspBColor
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpRight]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Items.Strings = (
+        'Blanco'
+        'Amarillo'
+        'Rojo'
+        'Negro'
+      )
+      BackgroundColor = colbrDefault
+      SelectedFontColor = colbrDefault
+      DropListTextColor = colbrDefault
+      DropListBackgroundColor = colbrDefault
+      LastItemAsPrompt = False
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      Alignment = taCenter
+      TextTypeFace = tfNormal
+      SelectedIndex = 0
+      GravityInParent = lgNone
+      SelectedPaddingTop = 15
+      SelectedPaddingBottom = 5
+      OnItemSelected = jspFColorItemSelected
+    end
+    object jbPreview: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 295
+      Top = 233
+      Width = 86
+      Height = 50
+      Visible = True
+      Anchor = jbShowBuuble
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpBottom, rpCenterHorizontal]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Mostrar'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = jbPreviewClick
+    end
+  end
+  object jPPreferences: jPanel
+    MarginLeft = 0
+    MarginTop = 0
+    MarginRight = 0
+    MarginBottom = 0
+    Enabled = True
+    Left = 0
+    Top = 112
+    Width = 677
+    Height = 409
+    Visible = False
+    PosRelativeToAnchor = []
+    PosRelativeToParent = []
+    LayoutParamWidth = lpMatchParent
+    LayoutParamHeight = lpUseWeight
+    BackgroundColor = colbrDefault
+    MinPinchZoomFactor = 0.25
+    MaxPinchZoomFactor = 4
+    AnimationDurationIn = 1500
+    AnimationMode = animNone
+    OnFlingGesture = jPPreferencesFlingGesture
+    object jtvInterval: jTextView
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 208
+      Top = 15
+      Width = 229
+      Height = 20
+      Visible = True
+      Anchor = jspInterval
+      PosRelativeToAnchor = [raToLeftOf, raAlignBaseline]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Intervalo de actualizacion en segundos:'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+    object jspInterval: jSpinner
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 447
+      Top = 5
+      Width = 225
+      Height = 40
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpTop, rpRight]
+      LayoutParamWidth = lpOneThirdOfParent
+      LayoutParamHeight = lpWrapContent
+      Items.Strings = (
+        '5'
+        '10'
+        '15'
+        '20'
+        '25'
+        '30'
+        '35'
+        '40'
+        '45'
+        '50'
+        '55'
+        '60'
+      )
+      BackgroundColor = colbrDefault
+      SelectedFontColor = colbrRed
+      DropListTextColor = colbrDefault
+      DropListBackgroundColor = colbrDefault
+      LastItemAsPrompt = False
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      Alignment = taCenter
+      TextTypeFace = tfNormal
+      SelectedIndex = 2
+      GravityInParent = lgNone
+      SelectedPaddingTop = 15
+      SelectedPaddingBottom = 5
+      OnItemSelected = jspIntervalItemSelected
+    end
+    object jtvdataformat: jTextView
+      MarginLeft = 25
+      MarginTop = 15
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 25
+      Top = 65
+      Width = 95
+      Height = 20
+      Visible = True
+      Anchor = jspInterval
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpLeft]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Datos a mostrar'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+    object jchbNacionales: jCheckBox
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 25
+      Top = 305
+      Width = 109
+      Height = 32
+      Visible = True
+      Anchor = jchbAllNetworks
+      PosRelativeToAnchor = [raBelow, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Nacionales'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      Checked = True
+      FontSizeUnit = unitDefault
+    end
+    object jchbBonoLTE: jCheckBox
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 25
+      Top = 179
+      Width = 97
+      Height = 32
+      Visible = True
+      Anchor = jchbBolsaNauta
+      PosRelativeToAnchor = [raBelow, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Bono LTE'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      Checked = True
+      FontSizeUnit = unitDefault
+    end
+    object jchbSoloLTE: jCheckBox
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 25
+      Top = 221
+      Width = 92
+      Height = 32
+      Visible = True
+      Anchor = jchbBonoLTE
+      PosRelativeToAnchor = [raBelow, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Solo LTE'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      Checked = True
+      FontSizeUnit = unitDefault
+    end
+    object jchbAllNetworks: jCheckBox
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 25
+      Top = 263
+      Width = 171
+      Height = 32
+      Visible = True
+      Anchor = jchbSoloLTE
+      PosRelativeToAnchor = [raBelow, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Para todas las redes'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      Checked = True
+      FontSizeUnit = unitDefault
+    end
+    object jchbBolsaDiaria: jCheckBox
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 25
+      Top = 95
+      Width = 115
+      Height = 32
+      Visible = True
+      Anchor = jtvdataformat
+      PosRelativeToAnchor = [raBelow, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Bolsa Diaria'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      Checked = True
+      FontSizeUnit = unitDefault
+    end
+    object jchbBolsaNauta: jCheckBox
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 25
+      Top = 137
+      Width = 116
+      Height = 32
+      Visible = True
+      Anchor = jchbBolsaDiaria
+      PosRelativeToAnchor = [raBelow, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Bolsa Nauta'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      Checked = True
+      FontSizeUnit = unitDefault
+    end
+    object jchbTime: jCheckBox
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 25
+      Top = 347
+      Width = 181
+      Height = 32
+      Visible = True
+      Anchor = jchbNacionales
+      PosRelativeToAnchor = [raBelow, raAlignLeft]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Hora de actualizacion'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      Checked = True
+      FontSizeUnit = unitDefault
+    end
+    object jchbAutoStart: jCheckBox
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 25
+      MarginBottom = 5
+      Enabled = True
+      Left = 409
+      Top = 95
+      Width = 243
+      Height = 32
+      Visible = True
+      Anchor = jtvdataformat
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpRight]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Mostar al inicio (experimental)'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      Checked = False
+      FontSizeUnit = unitDefault
+    end
+  end
+  object jPTrash: jPanel
+    MarginLeft = 0
+    MarginTop = 0
+    MarginRight = 0
+    MarginBottom = 0
+    Enabled = True
+    Left = 60
+    Top = 39
+    Width = 86
+    Height = 76
+    Visible = False
+    PosRelativeToAnchor = []
+    PosRelativeToParent = []
+    LayoutParamWidth = lpWrapContent
+    LayoutParamHeight = lpWrapContent
+    BackgroundColor = colbrRed
+    MinPinchZoomFactor = 0.25
+    MaxPinchZoomFactor = 4
+    AnimationDurationIn = 1500
+    AnimationMode = animNone
+    object jtvTrash: jTextView
+      MarginLeft = 35
+      MarginTop = 20
+      MarginRight = 35
+      MarginBottom = 20
+      Enabled = True
+      Left = 35
+      Top = 20
+      Width = 16
+      Height = 36
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpTop, rpLeft]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'X'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 24
+      TextTypeFace = tfBold
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+  end
+  object jwmBubble: jWindowManager
+    Left = 464
+    Top = 584
+  end
+  object jTemporizador: jTimer
+    Enabled = False
+    Interval = 20
+    OnTimer = jTemporizadorTimer
+    Left = 384
+    Top = 584
+  end
+  object jPreferences1: jPreferences
+    IsShared = False
+    Left = 304
+    Top = 584
+  end
+  object jAsyncTaskGet: jAsyncTask
+    OnDoInBackground = jAsyncTaskGetDoInBackground
+    OnPostExecute = jAsyncTaskGetPostExecute
+    Left = 217
+    Top = 584
+  end
+  object jAsyncTaskLogin: jAsyncTask
+    OnDoInBackground = jAsyncTaskLoginDoInBackground
+    OnPreExecute = jAsyncTaskLoginPreExecute
+    OnPostExecute = jAsyncTaskLoginPostExecute
+    Left = 128
+    Top = 584
+  end
+  object jModalDialog1: jModalDialog
+    Theme = thHoloLightDialog
+    CaptionOK = 'OK'
+    CaptionCancel = 'Cancel'
+    Title = 'LAMW Modal Dialog'
+    TitleFontSize = 0
+    Left = 552
+    Top = 584
+  end
+  object jActionBarTab1: jActionBarTab
+    Left = 32
+    Top = 584
+  end
+  object jIntentManager1: jIntentManager
+    IntentAction = iaNone
+    Left = 504
+    Top = 8
+  end
+  object jMenu1: jMenu
+    Left = 584
+    Top = 15
+  end
+  object jwmTrash: jWindowManager
+    Left = 544
+    Top = 156
+  end
+  object jTimerTrash: jTimer
+    Enabled = False
+    Interval = 20
+    OnTimer = jTimerTrashTimer
+    Left = 544
+    Top = 216
+  end
+end
