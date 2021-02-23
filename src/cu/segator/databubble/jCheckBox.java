@@ -39,14 +39,14 @@ public class jCheckBox extends CheckBox {
 		setOnClickListener(onClickListener);
 	}
 
-	public void setLeftTopRightBottomWidthHeight(int left, int top, int right, int bottom, int w, int h) {
+	public void SetLeftTopRightBottomWidthHeight(int left, int top, int right, int bottom, int w, int h) {
 		String tag = ""+left+"|"+top+"|"+right+"|"+bottom;
 		this.setTag(tag); //nedd by jsRecyclerView.java
 		LAMWCommon.setLeftTopRightBottomWidthHeight(left,top,right,bottom,w,h);
 	}
 
 	
-	public  void setParent( android.view.ViewGroup _viewgroup ) {
+	public  void SetViewParent( android.view.ViewGroup _viewgroup ) {
 		LAMWCommon.setParent(_viewgroup);
 	}
 
@@ -57,11 +57,11 @@ public class jCheckBox extends CheckBox {
 		LAMWCommon.free();
 	}
 
-	public void setLParamWidth(int w) {
+	public void SetLParamWidth(int w) {
 		LAMWCommon.setLParamWidth(w);
 	}
 
-	public void setLParamHeight(int h) {
+	public void SetLParamHeight(int h) {
 		LAMWCommon.setLParamHeight(h);
 	}
 
@@ -69,20 +69,20 @@ public class jCheckBox extends CheckBox {
 		LAMWCommon.setLGravity(_g);
 	}
 
-	public void setLWeight(float _w) {
+	public void SetLWeight(float _w) {
 		LAMWCommon.setLWeight(_w);
 	}
 
-	public void addLParamsAnchorRule(int rule) {
+	public void AddLParamsAnchorRule(int rule) {
 		LAMWCommon.addLParamsAnchorRule(rule);
 	}
 
-	public void addLParamsParentRule(int rule) {
+	public void AddLParamsParentRule(int rule) {
 		LAMWCommon.addLParamsParentRule(rule);
 	}
 
 
-	public void setLayoutAll(int idAnchor) {  
+	public void SetLayoutAll(int idAnchor) {  
 		LAMWCommon.setLayoutAll(idAnchor);
 	}
 

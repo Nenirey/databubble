@@ -1,0 +1,8 @@
+*.keystore
+.gradle
+ant.properties
+gradle.properties
+/build
+keystore.properties
+/obj/controls
+/libs

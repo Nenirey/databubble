@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<network-security-config>
-  <base-config cleartextTrafficPermitted="true">
-    <domain includeSubdomains="true">mi.cubacel.net</domain>
-    <trust-anchors>
-      <certificate src="system" />
-    </trust-anchors>
-  </base-config>
-</network-security-config>

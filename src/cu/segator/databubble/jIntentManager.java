@@ -18,6 +18,19 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.telephony.SmsMessage;
 import android.util.Log;
+import android.app.SearchManager;
+
+import android.graphics.Bitmap;
+import java.io.OutputStream;
+import android.content.ContentValues;
+
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+
+import java.util.ArrayList;
+
+import android.content.ActivityNotFoundException; 
+
 
 /*Draft java code by "Lazarus Android Module Wizard" [1/18/2015 3:49:46]*/
 /*https://github.com/jmpessoa/lazandroidmodulewizard*/
@@ -30,6 +43,8 @@ public class jIntentManager  {
    private Context  context   = null;
    
    private Intent mIntent;
+   
+   private List mActivities = null;
    
    //GUIDELINE: please, preferentially, init all yours params names with "_", ex: int _flag, String _hello ...
  
@@ -51,6 +66,10 @@ public class jIntentManager  {
          
    public Intent GetIntent() {	 
 	 return mIntent;
+   }
+   
+   public void NewIntent(){
+	 mIntent = new Intent();  
    }
    
    public Intent GetActivityStartedIntent() {
@@ -131,9 +150,14 @@ Sending Data: Extras vs. URI Parameters
 	    */
    }
       
-   public void StartActivityForResult(int _requestCode) {
+   public boolean StartActivityForResult(int _requestCode) {
+	  try{
 	   controls.activity.startActivityForResult(mIntent,_requestCode);
-	   // //startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+      } catch (ActivityNotFoundException e) {
+		  return false;
+	  }
+	  
+	  return true;
    }
       
    /*
@@ -143,17 +167,37 @@ Sending Data: Extras vs. URI Parameters
       startActivity(i); 
    */
       
-   public void StartActivity() {
+   public boolean StartActivity() {
 	   //intent.putExtras .... etc
-	  controls.activity.startActivity(mIntent);
+	  	  
+	  try {
+		  controls.activity.startActivity(mIntent);
+	  } catch (ActivityNotFoundException e) {
+		  return false;
+	  }
+	  
+	  return true;
    }
    
-   public void StartActivity(String _chooserTitle) {	  
-	   controls.activity.startActivity(Intent.createChooser(mIntent, _chooserTitle));
+   public boolean StartActivity(String _chooserTitle) {
+	   
+	  try{
+   		controls.activity.startActivity(Intent.createChooser(mIntent, _chooserTitle));
+      } catch (ActivityNotFoundException e) {
+		  return false;
+	  }
+	  
+	  return true;
    }
    
-   public void StartActivityForResult(int _requestCode, String _chooserTitle) {	  
+   public boolean StartActivityForResult(int _requestCode, String _chooserTitle) {
+	  try{ 
 	   controls.activity.startActivityForResult(Intent.createChooser(mIntent, _chooserTitle),_requestCode);
+      } catch (ActivityNotFoundException e) {
+		  return false;
+	  }
+	  
+	  return true;
    }
             
    /*
@@ -210,6 +254,10 @@ Sending Data: Extras vs. URI Parameters
 	   mIntent.putExtra(_dataName, _value);
    }
    
+   public void PutExtraBool(String _dataName, boolean _value) {
+		  mIntent.putExtra(_dataName, _value);
+   }
+   
    public float[] GetExtraFloatArray(Intent _intent, String _dataName) {
 	   return _intent.getFloatArrayExtra(_dataName);
    }
@@ -242,6 +290,10 @@ Sending Data: Extras vs. URI Parameters
 	  mIntent.putExtra(_dataName, _value);
    }
    
+   public void PutExtraLong(String _dataName, long _value) {
+		  mIntent.putExtra(_dataName, _value);
+   }
+   
    public String[] GetExtraStringArray(Intent _intent, String _dataName) {	  
 	  return _intent.getStringArrayExtra(_dataName);
    }
@@ -257,11 +309,7 @@ Sending Data: Extras vs. URI Parameters
    public void PutExtraString(String _dataName, String _value) {
 	  mIntent.putExtra(_dataName, _value);
    }
-
-   public void PutExtraBool(String _dataName, boolean _value) {
-	  mIntent.putExtra(_dataName, _value);
-   }
-
+            
    public void SetDataUri(Uri _dataUri) { //Uri.parse(fileUrl) - just Strings!
 		  //final Uri uriContact = ContactsContract.Contacts.CONTENT_URI;
 		  //android.provider.ContactsContract.Contacts.CONTENT_URI
@@ -300,6 +348,101 @@ Sending Data: Extras vs. URI Parameters
       
    public void PutExtraFile(String _environmentDirectoryPath, String _fileName) { //Environment.DIRECTORY_DOWNLOADS
       mIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+_environmentDirectoryPath+"/"+ _fileName)); //android.intent.extra.STREAM
+   }
+   
+   // Need android.permission.WRITE_EXTERNAL_STORAGE
+   public void PutExtraImage(Bitmap _bmp, String _title) {
+	   if( _bmp == null ) return;
+	   
+	   
+	   String path = MediaStore.Images.Media.insertImage(controls.activity.getContentResolver(), _bmp, _title, null);
+	   
+	   if( path != null ){
+	    Uri uri = Uri.parse(path);
+
+	    mIntent.setType("image/*");	   
+	    mIntent.putExtra(Intent.EXTRA_STREAM, uri); //android.intent.extra.STREAM
+	   }
+   }
+   
+   private void initListActivities(){
+	   if( mActivities != null ) return;
+	   
+	   mActivities = controls.activity.getPackageManager().queryIntentActivities(mIntent, 0);
+   }
+   
+   public void GetShareItemsClear(){
+	   if( mActivities == null ) return;
+	   
+	   mActivities.clear();
+	   mActivities = null;
+   }
+   
+   public int GetShareItemsCount(){
+		  if( mActivities == null ) initListActivities();
+		  
+		  if( mActivities == null ) return 0;
+		  
+		  return mActivities.size();
+   }
+   
+   public String GetShareItemLabel(int pos){
+	      if( mActivities == null ) initListActivities();
+		  
+		  if( mActivities == null ) return "";
+		  if( (pos < 0) || (pos >= mActivities.size()) ) return "";
+		  
+		  ResolveInfo info = (ResolveInfo) mActivities.get(pos);
+			
+		  if(info == null) return "";
+		  
+		  //return info.activityInfo.applicationInfo.loadLabel(controls.activity.getPackageManager()).toString();	
+		  
+		  return info.loadLabel(controls.activity.getPackageManager()).toString();	
+   }
+   
+   public void SetShareItemClass(int pos){
+	   if( mActivities == null ) initListActivities();
+		  
+	   if( mActivities == null ) return;
+	   if( (pos < 0) || (pos >= mActivities.size()) ) return;
+		     
+	   
+       ResolveInfo info = (ResolveInfo) mActivities.get(pos);
+	
+	   if(info == null) return;
+	   
+	   mIntent.setClassName(info.activityInfo.packageName, info.activityInfo.name);
+   }
+   
+   public String GetShareItemPackageName(int pos){
+	   if( mActivities == null ) initListActivities();
+		  
+	   if( mActivities == null ) return "";
+	   if( (pos < 0) || (pos >= mActivities.size()) ) return "";			    
+		   
+	   ResolveInfo info = (ResolveInfo) mActivities.get(pos);
+		
+	   if(info == null) return "";
+		
+	   return info.activityInfo.packageName;
+   }
+   
+   public Bitmap GetShareItemBitmap( int pos ){
+	    if( mActivities == null ) initListActivities();
+		  
+	    if( mActivities == null ) return null;
+	    if( (pos < 0) || (pos >= mActivities.size()) ) return null;			    
+		   
+	    ResolveInfo info = (ResolveInfo) mActivities.get(pos);
+		
+		if(info == null) return null;
+		
+		Drawable icon = info.activityInfo.applicationInfo.loadIcon(context.getPackageManager());
+			
+		if( icon == null ) return null;
+		    
+		return ((BitmapDrawable) icon).getBitmap();		
    }
       
    public void PutExtraMailSubject(String  _mailSubject) {
@@ -439,11 +582,11 @@ Sending Data: Extras vs. URI Parameters
 	    case 19: mIntent.setAction(android.content.Intent.ACTION_VOICE_COMMAND); break;	    	    
 	    case 20: mIntent.setAction(android.content.Intent.ACTION_WEB_SEARCH); break; 	    
 	    case 21: mIntent.setAction("android.intent.action.Main");break;
-	    case 22: mIntent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
-          case 23: mIntent.setAction("android.intent.ACTION_INSTALL_PACKAGE"); //
-          case 24: mIntent.setAction("android.intent.action.DELETE");  //
-          case 25: mIntent.setAction("Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES");
-          case 26: mIntent.setAction(Settings.ACTION_MANAGE_OVERLAY_PERMISSION); break;//by Segator
+	    case 22: mIntent.setAction("android.appwidget.action.APPWIDGET_UPDATE"); break;
+        case 23: mIntent.setAction("android.intent.ACTION_INSTALL_PACKAGE"); break;
+        case 24: mIntent.setAction("android.intent.action.DELETE"); break;
+        case 25: mIntent.setAction(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES); break;
+        case 26: mIntent.setAction(Settings.ACTION_MANAGE_OVERLAY_PERMISSION); break;
 	  }
 	  
    }
@@ -591,6 +734,21 @@ Sending Data: Extras vs. URI Parameters
 	   mIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse("file://"+_environmentDirectoryPath+"/"+ _fileName));
    }
    
+   public void PutExtraContactWebSite( String _website ){
+	   ArrayList arrayList = new ArrayList();
+	   
+       ContentValues contentValues = new ContentValues();
+       
+       String str = "mimetype";
+       contentValues.put(str, "vnd.android.cursor.item/website");
+       String str2 = "data1";
+       contentValues.put(str2, _website);
+       
+       arrayList.add(contentValues);
+       
+       mIntent.putParcelableArrayListExtra("data", arrayList);
+   }
+   
    public String GetActionCameraCropAsString() {
 	  return "com.android.camera.action.CROP"; //http://shaikhhamadali.blogspot.com.br/2013/09/capture-images-and-crop-images-using.html
    }
@@ -598,33 +756,48 @@ Sending Data: Extras vs. URI Parameters
    public void AddCategory(int  _intentCategory) {	   
 	  switch(_intentCategory) {
 	  
-	    case 0: mIntent.addCategory(Intent.CATEGORY_DEFAULT);	  
-	   	case 1: mIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-	   	case 2: mIntent.addCategory(Intent.CATEGORY_HOME);
-	   	case 3: mIntent.addCategory(Intent.CATEGORY_INFO);
-	   	case 4: mIntent.addCategory(Intent.CATEGORY_PREFERENCE);	   		   	
-	   	case 5: mIntent.addCategory(Intent.CATEGORY_APP_BROWSER);
-	   	case 6: mIntent.addCategory(Intent.CATEGORY_APP_CALCULATOR);
-	   	case 7: mIntent.addCategory(Intent.CATEGORY_APP_CALENDAR);
-	   	case 8: mIntent.addCategory(Intent.CATEGORY_APP_CONTACTS);
-	   	case 9: mIntent.addCategory(Intent.CATEGORY_APP_EMAIL);	   	
-	   	case 10: mIntent.addCategory(Intent.CATEGORY_APP_GALLERY);	   		   	
-	   	case 11: mIntent.addCategory(Intent.CATEGORY_APP_MAPS);	   	
-	   	case 12: mIntent.addCategory(Intent.CATEGORY_APP_MESSAGING);
-	   	case 13: mIntent.addCategory(Intent.CATEGORY_APP_MUSIC);
-	   	case 14: mIntent.addCategory(Intent.CATEGORY_OPENABLE); //by Tomash
+	    case 0: mIntent.addCategory(Intent.CATEGORY_DEFAULT); break;	  
+	   	case 1: mIntent.addCategory(Intent.CATEGORY_LAUNCHER); break;
+	   	case 2: mIntent.addCategory(Intent.CATEGORY_HOME); break;
+	   	case 3: mIntent.addCategory(Intent.CATEGORY_INFO); break;
+	   	case 4: mIntent.addCategory(Intent.CATEGORY_PREFERENCE); break;	   		   	
+	   	case 5: mIntent.addCategory(Intent.CATEGORY_APP_BROWSER); break;
+	   	case 6: mIntent.addCategory(Intent.CATEGORY_APP_CALCULATOR); break;
+	   	case 7: mIntent.addCategory(Intent.CATEGORY_APP_CALENDAR); break;
+	   	case 8: mIntent.addCategory(Intent.CATEGORY_APP_CONTACTS); break;
+	   	case 9: mIntent.addCategory(Intent.CATEGORY_APP_EMAIL); break;	   	
+	   	case 10: mIntent.addCategory(Intent.CATEGORY_APP_GALLERY); break;	   		   	
+	   	case 11: mIntent.addCategory(Intent.CATEGORY_APP_MAPS); break;	   	
+	   	case 12: mIntent.addCategory(Intent.CATEGORY_APP_MESSAGING); break;
+	   	case 13: mIntent.addCategory(Intent.CATEGORY_APP_MUSIC); break;
+	   	case 14: mIntent.addCategory(Intent.CATEGORY_OPENABLE); break;
+
 	  }		
    }
    
    public void SetFlag(int _intentFlag) {	   
 	   switch(_intentFlag) {
-	   	 case 0: mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	   	 case 1: mIntent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-	   	 case 2: mIntent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-	   	 case 3: mIntent.setFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
-	  	 case 4: mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-           case 5: mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-           case 6: mIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+	   	 case 0: mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); break;
+	   	 case 1: mIntent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT); break;
+	   	 case 2: mIntent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME); break;
+	   	 case 3: mIntent.setFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT); break;
+	  	 case 4: mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT); break; // Depreciaded 21+  mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);  
+         case 5: mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); break;
+         case 6: mIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); break;
+         case 7: mIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION); break;         
+	  }
+   }
+   
+   public void AddFlag(int _intentFlag) {	   
+	   switch(_intentFlag) {
+	   	 case 0: mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); break;
+	   	 case 1: mIntent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT); break;
+	   	 case 2: mIntent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME); break;
+	   	 case 3: mIntent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT); break;
+	  	 case 4: mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT); break; // Depreciaded 21+  mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+         case 5: mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); break;
+         case 6: mIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); break;
+         case 7: mIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION); break;
 	  }
    }
    
@@ -747,3 +920,4 @@ Sending Data: Extras vs. URI Parameters
         return str;
     }
 }
+

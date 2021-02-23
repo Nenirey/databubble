@@ -9,6 +9,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
 import android.net.Uri;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.provider.Settings;
 import android.view.Gravity;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import android.os.PowerManager;
 
 /*Draft java code by "Lazarus Android Module Wizard" [2/7/2017 22:51:19]*/
 /*https://github.com/jmpessoa/lazandroidmodulewizard*/
@@ -201,6 +204,9 @@ public class jWindowManager /*extends ...*/ {
         mParamsX = _x;
         mParamsY = _y;
         if (mParams == null) initParams();
+        //for change the position after construction by Segator
+        mParams.x = mParamsX;
+        mParams.y = mParamsY;
         if (mLayout != null)
             mWindowManager.updateViewLayout(mLayout, mParams);
     }
@@ -265,6 +271,50 @@ public class jWindowManager /*extends ...*/ {
         return r;
     }
 
+    //Check battery optimization by Sagator
+    public boolean IgnoringBatteryOptimizations() {
+        boolean r = true;
+        if (Build.VERSION.SDK_INT >= 23) {
+            //[ifdef_api23up]
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            r = pm.isIgnoringBatteryOptimizations(context.getPackageName());
+        }
+        return r;
+    }
+
+    public boolean isAffectedByDataSaver() {
+        boolean r = true;
+        if (Build.VERSION.SDK_INT >= 24) {
+            //[ifdef_api24up]
+            ConnectivityManager connMgr = (ConnectivityManager)
+            context.getSystemService(Context.CONNECTIVITY_SERVICE);
+             return connMgr != null
+                && connMgr.isActiveNetworkMetered()
+                && connMgr.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED;
+        } else {
+        return false;
+        }
+    }
+    //RequestRuntimePermission
+    public void RequestIgnoreBatteryOptimizationRuntimePermission(String _packageName, int _requestCode) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            intent.setData(Uri.parse("package:" + _packageName));
+            controls.activity.startActivityForResult(intent, _requestCode); //handle by pascal form "OnActivityResult";
+        }
+    }
+
+    //RequestRuntimePermission
+    public void RequestIgnoreBackgrundDataRestrictionRuntimePermission(String _packageName, int _requestCode) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS);
+            intent.setData(Uri.parse("package:" + _packageName));
+            controls.activity.startActivityForResult(intent, _requestCode); //handle by pascal form "OnActivityResult";
+        }
+    }
+
     //RequestRuntimePermission
     public void RequestDrawOverlayRuntimePermission(String _packageName, int _requestCode) {
         if (Build.VERSION.SDK_INT >= 23) {
@@ -275,6 +325,7 @@ public class jWindowManager /*extends ...*/ {
         }
     }
 
+
     public boolean IsDrawOverlaysRuntimePermissionNeed() {
         boolean r = false;
         if ( (Build.VERSION.SDK_INT >= 23) && (!CanDrawOverlays())) {
@@ -284,4 +335,3 @@ public class jWindowManager /*extends ...*/ {
     }
 
 }
-

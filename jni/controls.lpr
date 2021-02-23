@@ -1,11 +1,12 @@
 {hint: save all files to location: D:\lamw\projects\databubble\jni\ }
-library controls;  //[by LAMW: Lazarus Android Module Wizard: 28/08/2020 09:12:11]
+library controls;  //[by LAMW: Lazarus Android Module Wizard: 30/10/2020 18:01:10]
   
 {$mode delphi}
   
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
-  Laz_And_Controls_Events, main;
+  Laz_And_Controls_Events, unit1, unit2, unit3, unit4, unit5, unit6, unit7,
+  unit8, unit9, unit10, unit11, unit12, unit13, unit14, unit15, unit16, unit17;
   
 {%region /fold 'LAMW generated code'}
 
@@ -202,11 +203,10 @@ end;
 
 { Class:     cu_segator_databubble_Controls
   Method:    pOnClickGeneric
-  Signature: (JI)V }
-procedure pOnClickGeneric(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
-  value: JInt); cdecl;
+  Signature: (J)V }
+procedure pOnClickGeneric(PEnv: PJNIEnv; this: JObject; pasobj: JLong); cdecl;
 begin
-  Java_Event_pOnClickGeneric(PEnv, this, TObject(pasobj), value);
+  Java_Event_pOnClickGeneric(PEnv, this, TObject(pasobj));
 end;
 
 { Class:     cu_segator_databubble_Controls
@@ -221,20 +221,18 @@ end;
 
 { Class:     cu_segator_databubble_Controls
   Method:    pOnDown
-  Signature: (JI)V }
-procedure pOnDown(PEnv: PJNIEnv; this: JObject; pasobj: JLong; value: JInt); 
-  cdecl;
+  Signature: (J)V }
+procedure pOnDown(PEnv: PJNIEnv; this: JObject; pasobj: JLong); cdecl;
 begin
-  Java_Event_pOnDown(PEnv, this, TObject(pasobj), value);
+  Java_Event_pOnDown(PEnv, this, TObject(pasobj));
 end;
 
 { Class:     cu_segator_databubble_Controls
   Method:    pOnUp
-  Signature: (JI)V }
-procedure pOnUp(PEnv: PJNIEnv; this: JObject; pasobj: JLong; value: JInt); 
-  cdecl;
+  Signature: (J)V }
+procedure pOnUp(PEnv: PJNIEnv; this: JObject; pasobj: JLong); cdecl;
 begin
-  Java_Event_pOnUp(PEnv, this, TObject(pasobj), value);
+  Java_Event_pOnUp(PEnv, this, TObject(pasobj));
 end;
 
 { Class:     cu_segator_databubble_Controls
@@ -248,20 +246,18 @@ end;
 
 { Class:     cu_segator_databubble_Controls
   Method:    pOnLongClick
-  Signature: (JI)V }
-procedure pOnLongClick(PEnv: PJNIEnv; this: JObject; pasobj: JLong; value: JInt
-  ); cdecl;
+  Signature: (J)V }
+procedure pOnLongClick(PEnv: PJNIEnv; this: JObject; pasobj: JLong); cdecl;
 begin
-  Java_Event_pOnLongClick(PEnv, this, TObject(pasobj), value);
+  Java_Event_pOnLongClick(PEnv, this, TObject(pasobj));
 end;
 
 { Class:     cu_segator_databubble_Controls
   Method:    pOnDoubleClick
-  Signature: (JI)V }
-procedure pOnDoubleClick(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
-  value: JInt); cdecl;
+  Signature: (J)V }
+procedure pOnDoubleClick(PEnv: PJNIEnv; this: JObject; pasobj: JLong); cdecl;
 begin
-  Java_Event_pOnDoubleClick(PEnv, this, TObject(pasobj), value);
+  Java_Event_pOnDoubleClick(PEnv, this, TObject(pasobj));
 end;
 
 { Class:     cu_segator_databubble_Controls
@@ -353,6 +349,15 @@ begin
 end;
 
 { Class:     cu_segator_databubble_Controls
+  Method:    pOnFocus
+  Signature: (JLjava/lang/String;)V }
+procedure pOnFocus(PEnv: PJNIEnv; this: JObject; pasobj: JLong; text: JString); 
+  cdecl;
+begin
+  Java_Event_pOnFocus(PEnv, this, TObject(pasobj), text);
+end;
+
+{ Class:     cu_segator_databubble_Controls
   Method:    pOnBeforeDispatchDraw
   Signature: (JLandroid/graphics/Canvas;I)V }
 procedure pOnBeforeDispatchDraw(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
@@ -390,60 +395,214 @@ begin
 end;
 
 { Class:     cu_segator_databubble_Controls
-  Method:    pOnActionBarTabSelected
-  Signature: (JLandroid/view/View;Ljava/lang/String;)V }
-procedure pOnActionBarTabSelected(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
-  view: JObject; title: JString); cdecl;
+  Method:    pOnRunOnUiThread
+  Signature: (JI)V }
+procedure pOnRunOnUiThread(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+  tag: JInt); cdecl;
 begin
-  Java_Event_pOnActionBarTabSelected(PEnv, this, TObject(pasobj), view, title);
+  Java_Event_pOnRunOnUiThread(PEnv, this, TObject(pasobj), tag);
 end;
 
 { Class:     cu_segator_databubble_Controls
-  Method:    pOnActionBarTabUnSelected
-  Signature: (JLandroid/view/View;Ljava/lang/String;)V }
-procedure pOnActionBarTabUnSelected(PEnv: PJNIEnv; this: JObject; 
-  pasobj: JLong; view: JObject; title: JString); cdecl;
+  Method:    pOnBroadcastReceiver
+  Signature: (JLandroid/content/Intent;)V }
+procedure pOnBroadcastReceiver(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+  intent: JObject); cdecl;
 begin
-  Java_Event_pOnActionBarTabUnSelected(PEnv, this, TObject(pasobj), view, title
+  Java_Event_pOnBroadcastReceiver(PEnv, this, TObject(pasobj), intent);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnToyTimerServicePullElapsedTime
+  Signature: (JJ)V }
+procedure pOnToyTimerServicePullElapsedTime(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; elapsedTime: JLong); cdecl;
+begin
+  Java_Event_pOnToyTimerServicePullElapsedTime(PEnv, this, TObject(pasobj), 
+    elapsedTime);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnCustomDialogShow
+  Signature: (JLandroid/app/Dialog;Ljava/lang/String;)V }
+procedure pOnCustomDialogShow(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+  dialog: JObject; title: JString); cdecl;
+begin
+  Java_Event_pOnCustomDialogShow(PEnv, this, TObject(pasobj), dialog, title);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnCustomDialogBackKeyPressed
+  Signature: (JLjava/lang/String;)V }
+procedure pOnCustomDialogBackKeyPressed(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; title: JString); cdecl;
+begin
+  Java_Event_pOnCustomDialogBackKeyPressed(PEnv, this, TObject(pasobj), title);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnDrawingViewTouch
+  Signature: (JII[F[FIIF)V }
+procedure pOnDrawingViewTouch(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+  action: JInt; countPoints: JInt; arrayX: JFloatArray; arrayY: JFloatArray; 
+  flingGesture: JInt; pinchZoomGestureState: JInt; zoomScaleFactor: JFloat); 
+  cdecl;
+begin
+  Java_Event_pOnDrawingViewTouch(PEnv, this, TObject(pasobj), action, 
+    countPoints, arrayX, arrayY, flingGesture, pinchZoomGestureState, 
+    zoomScaleFactor);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnDrawingViewDraw
+  Signature: (JII[F[FIIF)V }
+procedure pOnDrawingViewDraw(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+  action: JInt; countPoints: JInt; arrayX: JFloatArray; arrayY: JFloatArray; 
+  flingGesture: JInt; pinchZoomGestureState: JInt; zoomScaleFactor: JFloat); 
+  cdecl;
+begin
+  Java_Event_pOnDrawingViewDraw(PEnv, this, TObject(pasobj), action, 
+    countPoints, arrayX, arrayY, flingGesture, pinchZoomGestureState, 
+    zoomScaleFactor);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnDrawingViewSizeChanged
+  Signature: (JIIII)V }
+procedure pOnDrawingViewSizeChanged(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; width: JInt; height: JInt; oldWidth: JInt; oldHeight: JInt); 
+  cdecl;
+begin
+  Java_Event_pOnDrawingViewSizeChanged(PEnv, this, TObject(pasobj), width, 
+    height, oldWidth, oldHeight);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnClickGridItem
+  Signature: (JILjava/lang/String;)V }
+procedure pOnClickGridItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+  position: JInt; caption: JString); cdecl;
+begin
+  Java_Event_pOnClickGridItem(PEnv, this, TObject(pasobj), position, caption);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnLongClickGridItem
+  Signature: (JILjava/lang/String;)V }
+procedure pOnLongClickGridItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+  position: JInt; caption: JString); cdecl;
+begin
+  Java_Event_pOnLongClickGridItem(PEnv, this, TObject(pasobj), position, caption
     );
 end;
 
 { Class:     cu_segator_databubble_Controls
-  Method:    pOnAsyncEventDoInBackground
-  Signature: (JI)Z }
-function pOnAsyncEventDoInBackground(PEnv: PJNIEnv; this: JObject; 
-  pasobj: JLong; progress: JInt): JBoolean; cdecl;
+  Method:    pOnGridDrawItemCaptionColor
+  Signature: (JILjava/lang/String;)I }
+function pOnGridDrawItemCaptionColor(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; position: JInt; caption: JString): JInt; cdecl;
 begin
-  Result:=Java_Event_pOnAsyncEventDoInBackground(PEnv, this, TObject(pasobj), 
-    progress);
+  Result:=Java_Event_pOnGridDrawItemCaptionColor(PEnv, this, TObject(pasobj), 
+    position, caption);
 end;
 
 { Class:     cu_segator_databubble_Controls
-  Method:    pOnAsyncEventProgressUpdate
-  Signature: (JI)I }
-function pOnAsyncEventProgressUpdate(PEnv: PJNIEnv; this: JObject; 
-  pasobj: JLong; progress: JInt): JInt; cdecl;
+  Method:    pOnGridDrawItemBitmap
+  Signature: (JILjava/lang/String;)Landroid/graphics/Bitmap; }
+function pOnGridDrawItemBitmap(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+  position: JInt; caption: JString): JObject; cdecl;
 begin
-  Result:=Java_Event_pOnAsyncEventProgressUpdate(PEnv, this, TObject(pasobj), 
-    progress);
+  Result:=Java_Event_pOnGridDrawItemBitmap(PEnv, this, TObject(pasobj), 
+    position, caption);
 end;
 
 { Class:     cu_segator_databubble_Controls
-  Method:    pOnAsyncEventPreExecute
-  Signature: (J)I }
-function pOnAsyncEventPreExecute(PEnv: PJNIEnv; this: JObject; pasobj: JLong
-  ): JInt; cdecl;
+  Method:    pOnHttpClientContentResult
+  Signature: (J[B)V }
+procedure pOnHttpClientContentResult(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; content: JByteArray); cdecl;
 begin
-  Result:=Java_Event_pOnAsyncEventPreExecute(PEnv, this, TObject(pasobj));
+  Java_Event_pOnHttpClientContentResult(PEnv, this, TObject(pasobj), content);
 end;
 
 { Class:     cu_segator_databubble_Controls
-  Method:    pOnAsyncEventPostExecute
+  Method:    pOnHttpClientCodeResult
   Signature: (JI)V }
-procedure pOnAsyncEventPostExecute(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
-  progress: JInt); cdecl;
+procedure pOnHttpClientCodeResult(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+  code: JInt); cdecl;
 begin
-  Java_Event_pOnAsyncEventPostExecute(PEnv, this, TObject(pasobj), progress);
+  Java_Event_pOnHttpClientCodeResult(PEnv, this, TObject(pasobj), code);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnHttpClientUploadProgress
+  Signature: (JJ)V }
+procedure pOnHttpClientUploadProgress(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; progress: JLong); cdecl;
+begin
+  Java_Event_pOnHttpClientUploadProgress(PEnv, this, TObject(pasobj), progress);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnHttpClientUploadFinished
+  Signature: (JILjava/lang/String;Ljava/lang/String;)V }
+procedure pOnHttpClientUploadFinished(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; connectionStatusCode: JInt; connectionStatusMessage: JString; 
+  fullFileName: JString); cdecl;
+begin
+  Java_Event_pOnHttpClientUploadFinished(PEnv, this, TObject(pasobj), 
+    connectionStatusCode, connectionStatusMessage, fullFileName);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnImageViewPopupItemSelected
+  Signature: (JLjava/lang/String;)V }
+procedure pOnImageViewPopupItemSelected(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; caption: JString); cdecl;
+begin
+  Java_Event_pOnImageViewPopupItemSelected(PEnv, this, TObject(pasobj), caption
+    );
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pRadioGroupCheckedChanged
+  Signature: (JILjava/lang/String;)V }
+procedure pRadioGroupCheckedChanged(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; checkedIndex: JInt; checkedCaption: JString); cdecl;
+begin
+  Java_Event_pRadioGroupCheckedChanged(PEnv, this, TObject(pasobj), 
+    checkedIndex, checkedCaption);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnScrollViewChanged
+  Signature: (JIIIIII)V }
+procedure pOnScrollViewChanged(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+  currenthorizontal: JInt; currentVertical: JInt; previousHorizontal: JInt; 
+  previousVertical: JInt; onPosition: JInt; scrolldiff: JInt); cdecl;
+begin
+  Java_Event_pOnScrollViewChanged(PEnv, this, TObject(pasobj), 
+    currenthorizontal, currentVertical, previousHorizontal, previousVertical, 
+    onPosition, scrolldiff);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnScrollViewInnerItemClick
+  Signature: (JI)V }
+procedure pOnScrollViewInnerItemClick(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; itemId: JInt); cdecl;
+begin
+  Java_Event_pOnScrollViewInnerItemClick(PEnv, this, TObject(pasobj), itemId);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnScrollViewInnerItemLongClick
+  Signature: (JII)V }
+procedure pOnScrollViewInnerItemLongClick(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; index: JInt; itemId: JInt); cdecl;
+begin
+  Java_Event_pOnScrollViewInnerItemLongClick(PEnv, this, TObject(pasobj), 
+    index, itemId);
 end;
 
 { Class:     cu_segator_databubble_Controls
@@ -476,13 +635,111 @@ begin
 end;
 
 { Class:     cu_segator_databubble_Controls
-  Method:    pOnSpinnerItemSelected
+  Method:    pOnClickNavigationViewItem
   Signature: (JILjava/lang/String;)V }
-procedure pOnSpinnerItemSelected(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
-  position: JInt; caption: JString); cdecl;
+procedure pOnClickNavigationViewItem(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; itemId: JInt; itemCaption: JString); cdecl;
 begin
-  Java_Event_pOnSpinnerItemSelected(PEnv, this, TObject(pasobj), position, 
-    caption);
+  Java_Event_pOnClickNavigationViewItem(PEnv, this, TObject(pasobj), itemId, 
+    itemCaption);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnRecyclerViewItemClick
+  Signature: (JI)V }
+procedure pOnRecyclerViewItemClick(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+  itemIndex: JInt); cdecl;
+begin
+  Java_Event_pOnRecyclerViewItemClick(PEnv, this, TObject(pasobj), itemIndex);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnRecyclerViewItemLongClick
+  Signature: (JI)V }
+procedure pOnRecyclerViewItemLongClick(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; itemIndex: JInt); cdecl;
+begin
+  Java_Event_pOnRecyclerViewItemLongClick(PEnv, this, TObject(pasobj), itemIndex
+    );
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnRecyclerViewItemTouchUp
+  Signature: (JI)V }
+procedure pOnRecyclerViewItemTouchUp(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; itemIndex: JInt); cdecl;
+begin
+  Java_Event_pOnRecyclerViewItemTouchUp(PEnv, this, TObject(pasobj), itemIndex);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnRecyclerViewItemTouchDown
+  Signature: (JI)V }
+procedure pOnRecyclerViewItemTouchDown(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; itemIndex: JInt); cdecl;
+begin
+  Java_Event_pOnRecyclerViewItemTouchDown(PEnv, this, TObject(pasobj), itemIndex
+    );
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnRecyclerViewItemWidgetClick
+  Signature: (JIIII)V }
+procedure pOnRecyclerViewItemWidgetClick(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; itemIndex: JInt; widgetClass: JInt; widgetId: JInt; 
+  status: JInt); cdecl;
+begin
+  Java_Event_pOnRecyclerViewItemWidgetClick(PEnv, this, TObject(pasobj), 
+    itemIndex, widgetClass, widgetId, status);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnRecyclerViewItemWidgetLongClick
+  Signature: (JIII)V }
+procedure pOnRecyclerViewItemWidgetLongClick(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; itemIndex: JInt; widgetClass: JInt; widgetId: JInt); cdecl;
+begin
+  Java_Event_pOnRecyclerViewItemWidgetLongClick(PEnv, this, TObject(pasobj), 
+    itemIndex, widgetClass, widgetId);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnRecyclerViewItemWidgetTouchUp
+  Signature: (JIII)V }
+procedure pOnRecyclerViewItemWidgetTouchUp(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; itemIndex: JInt; widgetClass: JInt; widgetId: JInt); cdecl;
+begin
+  Java_Event_pOnRecyclerViewItemWidgetTouchUp(PEnv, this, TObject(pasobj), 
+    itemIndex, widgetClass, widgetId);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnRecyclerViewItemWidgetTouchDown
+  Signature: (JIII)V }
+procedure pOnRecyclerViewItemWidgetTouchDown(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; itemIndex: JInt; widgetClass: JInt; widgetId: JInt); cdecl;
+begin
+  Java_Event_pOnRecyclerViewItemWidgetTouchDown(PEnv, this, TObject(pasobj), 
+    itemIndex, widgetClass, widgetId);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnSTabSelected
+  Signature: (JILjava/lang/String;)V }
+procedure pOnSTabSelected(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+  position: JInt; title: JString); cdecl;
+begin
+  Java_Event_pOnSTabSelected(PEnv, this, TObject(pasobj), position, title);
+end;
+
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnTelephonyCallStateChanged
+  Signature: (JILjava/lang/String;)V }
+procedure pOnTelephonyCallStateChanged(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; state: JInt; phoneNumber: JString); cdecl;
+begin
+  Java_Event_pOnTelephonyCallStateChanged(PEnv, this, TObject(pasobj), state, 
+    phoneNumber);
 end;
 
 { Class:     cu_segator_databubble_Controls
@@ -493,7 +750,17 @@ begin
   Java_Event_pOnTimer(PEnv, this, TObject(pasobj));
 end;
 
-const NativeMethods: array[0..53] of JNINativeMethod = (
+{ Class:     cu_segator_databubble_Controls
+  Method:    pOnZBarcodeScannerViewResult
+  Signature: (JLjava/lang/String;I)V }
+procedure pOnZBarcodeScannerViewResult(PEnv: PJNIEnv; this: JObject; 
+  pasobj: JLong; codedata: JString; codetype: JInt); cdecl;
+begin
+  Java_Event_pOnZBarcodeScannerViewResult(PEnv, this, TObject(pasobj), 
+    codedata, codetype);
+end;
+
+const NativeMethods: array[0..80] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
       +'Landroid/content/Intent;)V';
@@ -562,25 +829,25 @@ const NativeMethods: array[0..53] of JNINativeMethod = (
     signature: '(JIIFFFF)V';
     fnPtr: @pOnTouch; ),
    (name: 'pOnClickGeneric';
-    signature: '(JI)V';
+    signature: '(J)V';
     fnPtr: @pOnClickGeneric; ),
    (name: 'pAppOnSpecialKeyDown';
     signature: '(CILjava/lang/String;)Z';
     fnPtr: @pAppOnSpecialKeyDown; ),
    (name: 'pOnDown';
-    signature: '(JI)V';
+    signature: '(J)V';
     fnPtr: @pOnDown; ),
    (name: 'pOnUp';
-    signature: '(JI)V';
+    signature: '(J)V';
     fnPtr: @pOnUp; ),
    (name: 'pOnClick';
     signature: '(JI)V';
     fnPtr: @pOnClick; ),
    (name: 'pOnLongClick';
-    signature: '(JI)V';
+    signature: '(J)V';
     fnPtr: @pOnLongClick; ),
    (name: 'pOnDoubleClick';
-    signature: '(JI)V';
+    signature: '(J)V';
     fnPtr: @pOnDoubleClick; ),
    (name: 'pOnChange';
     signature: '(JLjava/lang/String;I)V';
@@ -612,6 +879,9 @@ const NativeMethods: array[0..53] of JNINativeMethod = (
    (name: 'pOnLostFocus';
     signature: '(JLjava/lang/String;)V';
     fnPtr: @pOnLostFocus; ),
+   (name: 'pOnFocus';
+    signature: '(JLjava/lang/String;)V';
+    fnPtr: @pOnFocus; ),
    (name: 'pOnBeforeDispatchDraw';
     signature: '(JLandroid/graphics/Canvas;I)V';
     fnPtr: @pOnBeforeDispatchDraw; ),
@@ -624,24 +894,69 @@ const NativeMethods: array[0..53] of JNINativeMethod = (
    (name: 'pAppOnRequestPermissionResult';
     signature: '(ILjava/lang/String;I)V';
     fnPtr: @pAppOnRequestPermissionResult; ),
-   (name: 'pOnActionBarTabSelected';
-    signature: '(JLandroid/view/View;Ljava/lang/String;)V';
-    fnPtr: @pOnActionBarTabSelected; ),
-   (name: 'pOnActionBarTabUnSelected';
-    signature: '(JLandroid/view/View;Ljava/lang/String;)V';
-    fnPtr: @pOnActionBarTabUnSelected; ),
-   (name: 'pOnAsyncEventDoInBackground';
-    signature: '(JI)Z';
-    fnPtr: @pOnAsyncEventDoInBackground; ),
-   (name: 'pOnAsyncEventProgressUpdate';
-    signature: '(JI)I';
-    fnPtr: @pOnAsyncEventProgressUpdate; ),
-   (name: 'pOnAsyncEventPreExecute';
-    signature: '(J)I';
-    fnPtr: @pOnAsyncEventPreExecute; ),
-   (name: 'pOnAsyncEventPostExecute';
+   (name: 'pOnRunOnUiThread';
     signature: '(JI)V';
-    fnPtr: @pOnAsyncEventPostExecute; ),
+    fnPtr: @pOnRunOnUiThread; ),
+   (name: 'pOnBroadcastReceiver';
+    signature: '(JLandroid/content/Intent;)V';
+    fnPtr: @pOnBroadcastReceiver; ),
+   (name: 'pOnToyTimerServicePullElapsedTime';
+    signature: '(JJ)V';
+    fnPtr: @pOnToyTimerServicePullElapsedTime; ),
+   (name: 'pOnCustomDialogShow';
+    signature: '(JLandroid/app/Dialog;Ljava/lang/String;)V';
+    fnPtr: @pOnCustomDialogShow; ),
+   (name: 'pOnCustomDialogBackKeyPressed';
+    signature: '(JLjava/lang/String;)V';
+    fnPtr: @pOnCustomDialogBackKeyPressed; ),
+   (name: 'pOnDrawingViewTouch';
+    signature: '(JII[F[FIIF)V';
+    fnPtr: @pOnDrawingViewTouch; ),
+   (name: 'pOnDrawingViewDraw';
+    signature: '(JII[F[FIIF)V';
+    fnPtr: @pOnDrawingViewDraw; ),
+   (name: 'pOnDrawingViewSizeChanged';
+    signature: '(JIIII)V';
+    fnPtr: @pOnDrawingViewSizeChanged; ),
+   (name: 'pOnClickGridItem';
+    signature: '(JILjava/lang/String;)V';
+    fnPtr: @pOnClickGridItem; ),
+   (name: 'pOnLongClickGridItem';
+    signature: '(JILjava/lang/String;)V';
+    fnPtr: @pOnLongClickGridItem; ),
+   (name: 'pOnGridDrawItemCaptionColor';
+    signature: '(JILjava/lang/String;)I';
+    fnPtr: @pOnGridDrawItemCaptionColor; ),
+   (name: 'pOnGridDrawItemBitmap';
+    signature: '(JILjava/lang/String;)Landroid/graphics/Bitmap;';
+    fnPtr: @pOnGridDrawItemBitmap; ),
+   (name: 'pOnHttpClientContentResult';
+    signature: '(J[B)V';
+    fnPtr: @pOnHttpClientContentResult; ),
+   (name: 'pOnHttpClientCodeResult';
+    signature: '(JI)V';
+    fnPtr: @pOnHttpClientCodeResult; ),
+   (name: 'pOnHttpClientUploadProgress';
+    signature: '(JJ)V';
+    fnPtr: @pOnHttpClientUploadProgress; ),
+   (name: 'pOnHttpClientUploadFinished';
+    signature: '(JILjava/lang/String;Ljava/lang/String;)V';
+    fnPtr: @pOnHttpClientUploadFinished; ),
+   (name: 'pOnImageViewPopupItemSelected';
+    signature: '(JLjava/lang/String;)V';
+    fnPtr: @pOnImageViewPopupItemSelected; ),
+   (name: 'pRadioGroupCheckedChanged';
+    signature: '(JILjava/lang/String;)V';
+    fnPtr: @pRadioGroupCheckedChanged; ),
+   (name: 'pOnScrollViewChanged';
+    signature: '(JIIIIII)V';
+    fnPtr: @pOnScrollViewChanged; ),
+   (name: 'pOnScrollViewInnerItemClick';
+    signature: '(JI)V';
+    fnPtr: @pOnScrollViewInnerItemClick; ),
+   (name: 'pOnScrollViewInnerItemLongClick';
+    signature: '(JII)V';
+    fnPtr: @pOnScrollViewInnerItemLongClick; ),
    (name: 'pOnSeekBarProgressChanged';
     signature: '(JIZ)V';
     fnPtr: @pOnSeekBarProgressChanged; ),
@@ -651,12 +966,45 @@ const NativeMethods: array[0..53] of JNINativeMethod = (
    (name: 'pOnSeekBarStopTrackingTouch';
     signature: '(JI)V';
     fnPtr: @pOnSeekBarStopTrackingTouch; ),
-   (name: 'pOnSpinnerItemSelected';
+   (name: 'pOnClickNavigationViewItem';
     signature: '(JILjava/lang/String;)V';
-    fnPtr: @pOnSpinnerItemSelected; ),
+    fnPtr: @pOnClickNavigationViewItem; ),
+   (name: 'pOnRecyclerViewItemClick';
+    signature: '(JI)V';
+    fnPtr: @pOnRecyclerViewItemClick; ),
+   (name: 'pOnRecyclerViewItemLongClick';
+    signature: '(JI)V';
+    fnPtr: @pOnRecyclerViewItemLongClick; ),
+   (name: 'pOnRecyclerViewItemTouchUp';
+    signature: '(JI)V';
+    fnPtr: @pOnRecyclerViewItemTouchUp; ),
+   (name: 'pOnRecyclerViewItemTouchDown';
+    signature: '(JI)V';
+    fnPtr: @pOnRecyclerViewItemTouchDown; ),
+   (name: 'pOnRecyclerViewItemWidgetClick';
+    signature: '(JIIII)V';
+    fnPtr: @pOnRecyclerViewItemWidgetClick; ),
+   (name: 'pOnRecyclerViewItemWidgetLongClick';
+    signature: '(JIII)V';
+    fnPtr: @pOnRecyclerViewItemWidgetLongClick; ),
+   (name: 'pOnRecyclerViewItemWidgetTouchUp';
+    signature: '(JIII)V';
+    fnPtr: @pOnRecyclerViewItemWidgetTouchUp; ),
+   (name: 'pOnRecyclerViewItemWidgetTouchDown';
+    signature: '(JIII)V';
+    fnPtr: @pOnRecyclerViewItemWidgetTouchDown; ),
+   (name: 'pOnSTabSelected';
+    signature: '(JILjava/lang/String;)V';
+    fnPtr: @pOnSTabSelected; ),
+   (name: 'pOnTelephonyCallStateChanged';
+    signature: '(JILjava/lang/String;)V';
+    fnPtr: @pOnTelephonyCallStateChanged; ),
    (name: 'pOnTimer';
     signature: '(J)V';
-    fnPtr: @pOnTimer; )
+    fnPtr: @pOnTimer; ),
+   (name: 'pOnZBarcodeScannerViewResult';
+    signature: '(JLjava/lang/String;I)V';
+    fnPtr: @pOnZBarcodeScannerViewResult; )
 );
 
 function RegisterNativeMethodsArray(PEnv: PJNIEnv; className: PChar; 
@@ -770,6 +1118,7 @@ exports
   pOnPinchZoomGestureDetected name 'Java_cu_segator_databubble_Controls_'
     +'pOnPinchZoomGestureDetected',
   pOnLostFocus name 'Java_cu_segator_databubble_Controls_pOnLostFocus',
+  pOnFocus name 'Java_cu_segator_databubble_Controls_pOnFocus',
   pOnBeforeDispatchDraw name 'Java_cu_segator_databubble_Controls_'
     +'pOnBeforeDispatchDraw',
   pOnAfterDispatchDraw name 'Java_cu_segator_databubble_Controls_'
@@ -777,27 +1126,76 @@ exports
   pOnLayouting name 'Java_cu_segator_databubble_Controls_pOnLayouting',
   pAppOnRequestPermissionResult name 'Java_cu_segator_databubble_Controls_'
     +'pAppOnRequestPermissionResult',
-  pOnActionBarTabSelected name 'Java_cu_segator_databubble_Controls_'
-    +'pOnActionBarTabSelected',
-  pOnActionBarTabUnSelected name 'Java_cu_segator_databubble_Controls_'
-    +'pOnActionBarTabUnSelected',
-  pOnAsyncEventDoInBackground name 'Java_cu_segator_databubble_Controls_'
-    +'pOnAsyncEventDoInBackground',
-  pOnAsyncEventProgressUpdate name 'Java_cu_segator_databubble_Controls_'
-    +'pOnAsyncEventProgressUpdate',
-  pOnAsyncEventPreExecute name 'Java_cu_segator_databubble_Controls_'
-    +'pOnAsyncEventPreExecute',
-  pOnAsyncEventPostExecute name 'Java_cu_segator_databubble_Controls_'
-    +'pOnAsyncEventPostExecute',
+  pOnRunOnUiThread name 'Java_cu_segator_databubble_Controls_pOnRunOnUiThread',
+  pOnBroadcastReceiver name 'Java_cu_segator_databubble_Controls_'
+    +'pOnBroadcastReceiver',
+  pOnToyTimerServicePullElapsedTime name 'Java_cu_segator_databubble_Controls_'
+    +'pOnToyTimerServicePullElapsedTime',
+  pOnCustomDialogShow name 'Java_cu_segator_databubble_Controls_'
+    +'pOnCustomDialogShow',
+  pOnCustomDialogBackKeyPressed name 'Java_cu_segator_databubble_Controls_'
+    +'pOnCustomDialogBackKeyPressed',
+  pOnDrawingViewTouch name 'Java_cu_segator_databubble_Controls_'
+    +'pOnDrawingViewTouch',
+  pOnDrawingViewDraw name 'Java_cu_segator_databubble_Controls_'
+    +'pOnDrawingViewDraw',
+  pOnDrawingViewSizeChanged name 'Java_cu_segator_databubble_Controls_'
+    +'pOnDrawingViewSizeChanged',
+  pOnClickGridItem name 'Java_cu_segator_databubble_Controls_pOnClickGridItem',
+  pOnLongClickGridItem name 'Java_cu_segator_databubble_Controls_'
+    +'pOnLongClickGridItem',
+  pOnGridDrawItemCaptionColor name 'Java_cu_segator_databubble_Controls_'
+    +'pOnGridDrawItemCaptionColor',
+  pOnGridDrawItemBitmap name 'Java_cu_segator_databubble_Controls_'
+    +'pOnGridDrawItemBitmap',
+  pOnHttpClientContentResult name 'Java_cu_segator_databubble_Controls_'
+    +'pOnHttpClientContentResult',
+  pOnHttpClientCodeResult name 'Java_cu_segator_databubble_Controls_'
+    +'pOnHttpClientCodeResult',
+  pOnHttpClientUploadProgress name 'Java_cu_segator_databubble_Controls_'
+    +'pOnHttpClientUploadProgress',
+  pOnHttpClientUploadFinished name 'Java_cu_segator_databubble_Controls_'
+    +'pOnHttpClientUploadFinished',
+  pOnImageViewPopupItemSelected name 'Java_cu_segator_databubble_Controls_'
+    +'pOnImageViewPopupItemSelected',
+  pRadioGroupCheckedChanged name 'Java_cu_segator_databubble_Controls_'
+    +'pRadioGroupCheckedChanged',
+  pOnScrollViewChanged name 'Java_cu_segator_databubble_Controls_'
+    +'pOnScrollViewChanged',
+  pOnScrollViewInnerItemClick name 'Java_cu_segator_databubble_Controls_'
+    +'pOnScrollViewInnerItemClick',
+  pOnScrollViewInnerItemLongClick name 'Java_cu_segator_databubble_Controls_'
+    +'pOnScrollViewInnerItemLongClick',
   pOnSeekBarProgressChanged name 'Java_cu_segator_databubble_Controls_'
     +'pOnSeekBarProgressChanged',
   pOnSeekBarStartTrackingTouch name 'Java_cu_segator_databubble_Controls_'
     +'pOnSeekBarStartTrackingTouch',
   pOnSeekBarStopTrackingTouch name 'Java_cu_segator_databubble_Controls_'
     +'pOnSeekBarStopTrackingTouch',
-  pOnSpinnerItemSelected name 'Java_cu_segator_databubble_Controls_'
-    +'pOnSpinnerItemSelected',
-  pOnTimer name 'Java_cu_segator_databubble_Controls_pOnTimer';
+  pOnClickNavigationViewItem name 'Java_cu_segator_databubble_Controls_'
+    +'pOnClickNavigationViewItem',
+  pOnRecyclerViewItemClick name 'Java_cu_segator_databubble_Controls_'
+    +'pOnRecyclerViewItemClick',
+  pOnRecyclerViewItemLongClick name 'Java_cu_segator_databubble_Controls_'
+    +'pOnRecyclerViewItemLongClick',
+  pOnRecyclerViewItemTouchUp name 'Java_cu_segator_databubble_Controls_'
+    +'pOnRecyclerViewItemTouchUp',
+  pOnRecyclerViewItemTouchDown name 'Java_cu_segator_databubble_Controls_'
+    +'pOnRecyclerViewItemTouchDown',
+  pOnRecyclerViewItemWidgetClick name 'Java_cu_segator_databubble_Controls_'
+    +'pOnRecyclerViewItemWidgetClick',
+  pOnRecyclerViewItemWidgetLongClick name 'Java_cu_segator_databubble_Controls'
+    +'_pOnRecyclerViewItemWidgetLongClick',
+  pOnRecyclerViewItemWidgetTouchUp name 'Java_cu_segator_databubble_Controls_'
+    +'pOnRecyclerViewItemWidgetTouchUp',
+  pOnRecyclerViewItemWidgetTouchDown name 'Java_cu_segator_databubble_Controls'
+    +'_pOnRecyclerViewItemWidgetTouchDown',
+  pOnSTabSelected name 'Java_cu_segator_databubble_Controls_pOnSTabSelected',
+  pOnTelephonyCallStateChanged name 'Java_cu_segator_databubble_Controls_'
+    +'pOnTelephonyCallStateChanged',
+  pOnTimer name 'Java_cu_segator_databubble_Controls_pOnTimer',
+  pOnZBarcodeScannerViewResult name 'Java_cu_segator_databubble_Controls_'
+    +'pOnZBarcodeScannerViewResult';
 
 {%endregion}
   

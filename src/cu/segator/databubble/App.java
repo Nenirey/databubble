@@ -1,6 +1,6 @@
 package cu.segator.databubble;
 
-//Lamw: Lazarus Android Module Wizard - version 0.8.4 - 12 March - 2019
+//Lamw: Lazarus Android Module Wizard - version 0.8.6 - 30 October - 2020
 //Form Designer and Components development model!
 //https://github.com/jmpessoa/lazandroidmodulewizard
 //http://forum.lazarus.freepascal.org/index.php/topic,21919.270.html
@@ -19,9 +19,9 @@ package cu.segator.databubble;
 
 //	    Jose Marques Pessoa  /  josemarquespessoa@gmail.com
 
-
 import java.lang.Override;
-import android.app.Activity;
+//import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.pm.ActivityInfo; 
@@ -39,10 +39,9 @@ import android.util.Log;
 import android.content.Context;
 import android.graphics.Canvas;
 
-public class App extends Activity {
-    
-private Controls       controls;
-    
+public class App extends AppCompatActivity {
+
+    private Controls       controls;    
     private int screenOrientation = 0; //For update screen orientation. [by TR3E]
     private boolean rlSizeChanged = false;
     
@@ -184,7 +183,9 @@ private Controls       controls;
  
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-     controls.jAppOnActivityResult(requestCode,resultCode,data);                                     
+        super.onActivityResult(requestCode, resultCode, data);
+
+        controls.jAppOnActivityResult(requestCode,resultCode,data);                                     
     }
 
     // http://stackoverflow.com/questions/15686555/display-back-button-on-action-bar
@@ -248,7 +249,7 @@ private Controls       controls;
    }
    
    /*by jmpessoa: TODO :Handles opened menu */
-  @Override     
+   @Override     
    public boolean onMenuOpened(int featureId, Menu menu) {
 	   //TODO!!!!
      return super.onMenuOpened(featureId, menu);
@@ -264,12 +265,12 @@ private Controls       controls;
    public boolean onKeyDown(int keyCode, KeyEvent event) {
 	   
 	  char c = event.getDisplayLabel();	        
-	  boolean mute = false;
-	  
+	  //boolean mute = controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));  //TODO
+      //if (mute) return false;	  
       switch(keyCode) {
             
       case KeyEvent.KEYCODE_BACK:
-    	 mute = controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));    	  
+    	 boolean mute = controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));    	  
          if (!mute) { //continue ...
         	 onBackPressed();
              return true;
@@ -278,20 +279,20 @@ private Controls       controls;
          }
          
       case KeyEvent.KEYCODE_MENU:     	     	      	          
-    	 mute = controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));
+    	 controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));
          break;
               
         case KeyEvent.KEYCODE_SEARCH:
-          mute = controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));
+          controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));
           break;
                     
         case KeyEvent.KEYCODE_VOLUME_UP:
           //event.startTracking();  //TODO
-          mute = controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));
+          controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));
           break;
           
         case KeyEvent.KEYCODE_VOLUME_DOWN:
-          mute = controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));
+          controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));
           break;
           
           /*commented! need SDK API >= 18 [Android 4.3] to compile!*/
@@ -319,15 +320,8 @@ private Controls       controls;
         case KeyEvent.KEYCODE_NUM_LOCK:
             controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));
             break;            
-
-        default:  mute = controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));         	
+        //default:  controls.jAppOnKeyDown(c,keyCode,KeyEvent.keyCodeToString(keyCode));         	
       }      
-
-      if (mute) 
-      {
-        	 return true;
-      } else {
-        	 return super.onKeyDown(keyCode, event);        	 
-      }       
+      return super.onKeyDown(keyCode, event);      
    }        
 }

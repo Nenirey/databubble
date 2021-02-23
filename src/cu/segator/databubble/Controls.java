@@ -1,6 +1,6 @@
 package cu.segator.databubble;
 
-//LAMW: Lazarus Android Module Wizard - version 0.8.4.7 [unified!!] - 10 August - 2020 
+//LAMW: Lazarus Android Module Wizard - version 0.8.6.1 [AndroidX!!] - 11 November - 2020 
 //RAD Android: Project Wizard, Form Designer and Components Development Model!
 
 //https://github.com/jmpessoa/lazandroidmodulewizard
@@ -165,7 +165,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import android.os.StrictMode; //by Guser979 [try fix "jCamera_takePhoto"
+import java.text.ParseException;
+import java.text.DateFormat;
+import java.util.Calendar; 
+
+//import android.os.StrictMode; //by Guser979 [try fix "jCamera_takePhoto"
 
 //-------------------------------------------------------------------------
 //Constants
@@ -202,6 +206,8 @@ class jForm {
 	private int animationDurationIn = 1500;
 	private int animationDurationOut = 1500;
 	private int animationMode = 0; //none, fade, LeftToRight, RightToLeft
+
+	public Toast mCustomToast = null;
 
 	// Constructor
 	public jForm(Controls ctrls, long pasobj) {
@@ -249,7 +255,7 @@ class jForm {
 
 		layout.setOnClickListener(onClickListener);
 
-		// To ensure that the image is always in the background by TR3E
+		// To ensure that the image is always in the background by ADiV
 		mImageBackground = new ImageView(controls.activity);
 
 		if (mImageBackground != null) {
@@ -517,7 +523,7 @@ class jForm {
 		controls.pOnClose(PasObj);
 	}
 
-	//by TR3E
+	//by ADiV
 	public boolean IsScreenLocked() {
 		KeyguardManager myKM = (KeyguardManager) controls.activity.getSystemService(Context.KEYGUARD_SERVICE);
 
@@ -526,7 +532,7 @@ class jForm {
 		return myKM.inKeyguardRestrictedInputMode();
 	}
 
-	//by TR3E
+	//by ADiV
 	public boolean IsSleepMode() {
 		PowerManager powerManager = (PowerManager) controls.activity.getSystemService(Context.POWER_SERVICE);
 
@@ -537,7 +543,7 @@ class jForm {
 		return !isScreenAwake;
 	}
 
-	public boolean IsConnected() { //by TR3E
+	public boolean IsConnected() { //by ADiV
 
 		ConnectivityManager cm = (ConnectivityManager) controls.activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -551,7 +557,7 @@ class jForm {
 		return false;
 	}
 
-	public boolean IsConnectedWifi() { // by TR3E
+	public boolean IsConnectedWifi() { // by ADiV
 
 		ConnectivityManager cm = (ConnectivityManager) controls.activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -565,7 +571,7 @@ class jForm {
 		return false;
 	}
 
-	public boolean IsConnectedTo(int _connectionType) { // by TR3E
+	public boolean IsConnectedTo(int _connectionType) { // by ADiV
 
 		ConnectivityManager cm = (ConnectivityManager) controls.activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -636,15 +642,54 @@ class jForm {
 		return (formatter.format(new Date()));
 	}
 	
-	// by TR3E
+	// by ADiV
+	public String GetDateTime(long millisDateTime) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return (formatter.format(millisDateTime));
+	}
+	
+	// by ADiV
 	public long GetTimeInMilliseconds(){
 		return controls.getTick();
 	}
 
-	//by TR3E
+	//by ADiV
 	public String GetTimeHHssSS( long millisTime ) {
 		  SimpleDateFormat formatter = new SimpleDateFormat ( "mm:ss:SS" );
 		  return( formatter.format ( new Date (millisTime) ) );	
+	}
+	
+	//by ADiV
+	public long GetDateTimeToMillis( String _dateTime, boolean _zone ){
+		String     sPattern  = "yyyy-MM-dd HH:mm:ss";
+	    
+	    long offset = 0;
+	    
+	    if(_zone){
+	     Calendar calendar = Calendar.getInstance(Locale.getDefault());
+	     
+	     if( calendar != null )
+	      offset = -(calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET));// / (60 * 1000);
+	    }
+	    
+	    DateFormat formatter = new SimpleDateFormat(sPattern);
+	        
+	    if( formatter == null ) return 0;
+			
+		long lnsTime = 0;
+		
+	    try{
+	    
+	     Date dateObject = formatter.parse(_dateTime);
+
+	     if( dateObject != null )
+	      lnsTime = dateObject.getTime();
+	    
+	    }catch (java.text.ParseException e){        
+	            e.printStackTrace();            
+	    }
+	    
+	    return (lnsTime - offset);
 	}
 
 	//Free object except Self, Pascal Code Free the class.
@@ -797,11 +842,29 @@ class jForm {
 
 		return absPath;
 	}
-
+	
 	public String GetInternalAppStoragePath() { //GetAbsoluteDirectoryPath
 		String PathDat = this.controls.activity.getFilesDir().getAbsolutePath();       //Result : /data/data/com/MyApp/files
 		return PathDat;
 	}
+
+    //checks if external storage is available for read and write
+    public boolean IsExternalStorageReadWriteAvailable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    //checks if external storage is available for read
+    public boolean IsExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
+    }
 
 	private void copyFileUsingFileStreams(File source, File dest)
 			throws IOException {
@@ -810,14 +873,15 @@ class jForm {
 		try {
 			input = new FileInputStream(source);
 			output = new FileOutputStream(dest);
+
 			byte[] buf = new byte[1024];
 			int bytesRead;
 			while ((bytesRead = input.read(buf)) > 0) {
 				output.write(buf, 0, bytesRead);
 			}
 		} finally {
-			input.close();
-			output.close();
+			if (input != null) input.close();
+			if (output != null) output.close();
 		}
 	}
 
@@ -870,8 +934,11 @@ class jForm {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 	}
 
-	public void DeleteFile(String _filename) {
-		this.controls.activity.deleteFile(_filename);
+	public void DeleteFile(String _fileFull) {
+		   File file = new File(_fileFull);
+		   
+		   if( file.isFile() )
+		    file.delete();
 	}
 
 	public void DeleteFile(String _fullPath, String _filename) {
@@ -981,7 +1048,7 @@ class jForm {
 	}
 
 	public Drawable GetDrawableResourceById(int _resID) {
-		if (_resID == 0) return null; // by tr3e
+		if (_resID == 0) return null; // by ADiV
 
 		Drawable res = null;
 
@@ -997,7 +1064,7 @@ class jForm {
 		return res;
 	}
 
-	//BY TR3E
+	//BY ADiV
 	public void SetBackgroundImage(String _imageIdentifier, int _scaleType) {
 
 		if (mImageBackground == null) return;
@@ -1034,7 +1101,7 @@ class jForm {
 		mImageBackground.setImageDrawable(d);
 	}
 
-	//BY TR3E
+	//BY ADiV
 	public void SetBackgroundImageMatrix(float _scaleX, float _scaleY, float _degress, float _dx, float _dy, float _centerX, float _centerY) {
 
 		if (mImageBackground == null) return;
@@ -1052,7 +1119,7 @@ class jForm {
 		//mImageBackground.invalidate();
 	}
 
-	// BY TR3E
+	// BY ADiV
 	public void SetBackgroundImage(String _imageIdentifier) {
 		SetBackgroundImage(_imageIdentifier, 6); // FIT_XY for default
 	}
@@ -1077,17 +1144,16 @@ class jForm {
 		} else return null;
 	}
 	
-	// BY TR3E
+	// BY ADiV
 	public int GetBatteryPercent() {
 		
 		int ret = -1;
 
 	    if (Build.VERSION.SDK_INT >= 21) {
-
+             //[ifdef_api21up]
 	         BatteryManager bm = (BatteryManager) this.controls.activity.getSystemService(this.controls.activity.BATTERY_SERVICE);
-	         
-	         if( bm != null )
-	          ret = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+	         if( bm != null ) ret = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+			//[endif_api21up]
 
 	    } else {
 
@@ -1149,7 +1215,7 @@ class jForm {
 //[ifdef_api14up]
 		Drawable d = GetDrawableResourceById(GetDrawableResourceId(_iconIdentifier));
 
-		if (d != null) // by tr3e
+		if (d != null) // by ADiV
 			jCommons.ActionBarSetIcon(controls, d);
 //[endif_api14up]
 	}
@@ -1241,7 +1307,7 @@ class jForm {
 	        //Create a pattern
 	        Pattern pattern = Pattern.compile(patternString);
 	        if (null == pattern) {
-	            return null;
+	            return "";
 	        }
 
 	        //Match the pattern string in provided string
@@ -1255,14 +1321,14 @@ class jForm {
 	        ex.printStackTrace();
 	    }
 
-	    return null;
+	    return "";
 	}
 
 	// by ADiV
 	public String GetVersionPlayStore(String appUrlString) {
 	    final String currentVersion_PatternSeq = "<div[^>]*?>Current\\sVersion</div><span[^>]*?>(.*?)><div[^>]*?>(.*?)><span[^>]*?>(.*?)</span>";
 	    final String appVersion_PatternSeq = "htlgb\">([^<]*)</s";
-	    String playStoreAppVersion = null;
+	    String playStoreAppVersion = "";
 
 	    BufferedReader inReader = null;
 	    URLConnection uc = null;
@@ -1273,13 +1339,13 @@ class jForm {
 	    try{
 	     url = new URL(appUrlString);
 	    } catch (MalformedURLException e) {
-	     return null;
+	     return "";
 	    }
 	    
 	    try{
 	     uc = url.openConnection();
 	     if(uc == null) {
-	       return null;
+	       return "";
 	     }
 	     uc.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 	     inReader = new BufferedReader(new InputStreamReader(uc.getInputStream()));
@@ -1291,14 +1357,13 @@ class jForm {
 	     }
 	    
 	    } catch (IOException e) {
-	     return null;	
+	     return "";	
 	    }
-	    
 
-	    // Get the current version pattern sequence 
+	    // Get the current version pattern sequence
 	    String versionString = GetAppVersion(currentVersion_PatternSeq, urlData.toString());
-	    if(null == versionString){ 
-	        return null;
+	    if(null == versionString){
+	        return "";
 	    }else{
 	        // get version from "htlgb">X.X.X</span>
 	        playStoreAppVersion = GetAppVersion(appVersion_PatternSeq, versionString);
@@ -1307,19 +1372,32 @@ class jForm {
 	    return playStoreAppVersion;
 	}
 
+	public void CancelShowCustomMessage() {
+		if (mCustomToast != null) {
+			mCustomToast.cancel();
+			mCustomToast = null;
+		}
+	}
+
 	//android.view.View
 	public void ShowCustomMessage(View _layout, int _gravity) {
 		//controls.pOnShowCustomMessage(PasObj);
-		Toast toast = new Toast(controls.activity);
-		toast.setGravity(_gravity, 0, 0);
-		toast.setDuration(Toast.LENGTH_LONG);
-		RelativeLayout par = (RelativeLayout) _layout.getParent();
-		if (par != null) {
-			par.removeView(_layout);
+
+		//android.view.ViewGroup
+		if (_layout.getParent() instanceof android.widget.RelativeLayout) {
+			android.widget.RelativeLayout par = (android.widget.RelativeLayout) _layout.getParent();
+			if (par != null) {
+				par.removeView(_layout);
+			}
 		}
+
+		mCustomToast = new Toast(controls.activity);
+		mCustomToast.setGravity(_gravity, 0, 0);
+		mCustomToast.setDuration(Toast.LENGTH_LONG);
 		_layout.setVisibility(View.VISIBLE);
-		toast.setView(_layout);
-		toast.show();
+		mCustomToast.setView(_layout);
+		mCustomToast.show();
+
 	}
 
 	private class MyCountDownTimer extends CountDownTimer {
@@ -1344,19 +1422,21 @@ class jForm {
 	}
 
 	public void ShowCustomMessage(View _layout, int _gravity, int _lenghTimeSecond) {
-		Toast toast = new Toast(controls.activity);
-		toast.setGravity(_gravity, 0, 0);
+
+		mCustomToast = new Toast(controls.activity);
+		mCustomToast.setGravity(_gravity, 0, 0);
 		//toast.setDuration(Toast.LENGTH_LONG);
-		RelativeLayout par = (RelativeLayout) _layout.getParent();
+		android.widget.RelativeLayout par = (android.widget.RelativeLayout) _layout.getParent();
 		if (par != null) {
 			par.removeView(_layout);
 		}
 		_layout.setVisibility(View.VISIBLE);//0
-		toast.setView(_layout);
+		mCustomToast.setView(_layout);
 		//it will show the toast for 20 seconds:
 		//(20000 milliseconds/1st argument) with interval of 1 second/2nd argument //--> (20 000, 1000)
-		MyCountDownTimer countDownTimer = new MyCountDownTimer(_lenghTimeSecond * 1000, 1000, toast);
+		MyCountDownTimer countDownTimer = new MyCountDownTimer(_lenghTimeSecond * 1000, 1000, mCustomToast);
 		countDownTimer.start();
+
 	}
 
 	public void SetScreenOrientation(int _orientation) {
@@ -1517,7 +1597,7 @@ class jForm {
 		return PathDat + "/" +_filename2;
 	}
 
-	//by TR3E
+	//by ADiV
 	public String GetStripAccents(String _str) {
 		_str = Normalizer.normalize(_str, Normalizer.Form.NFD);
 		_str = _str.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
@@ -1586,8 +1666,10 @@ class jForm {
 
 	public void SetTurnScreenOn(boolean _value) {
 		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+		if (Build.VERSION.SDK_INT >= 27) {
+			//[ifdef_api27up]
 			controls.activity.setTurnScreenOn(_value);
+			//[endif_api27up]
 	    } else {
 		 if (_value)
 		   controls.activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
@@ -1606,8 +1688,10 @@ class jForm {
 
 	public void SetShowWhenLocked(boolean _value) {
 		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-			controls.activity.setShowWhenLocked(_value);		
+		if (Build.VERSION.SDK_INT >= 27) {
+			//[ifdef_api27up]
+			controls.activity.setShowWhenLocked(_value);
+			//[endif_api27up]
 	    } else {
 		 if (_value)
 		    controls.activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
@@ -1700,7 +1784,7 @@ class jForm {
 		// DhcpInfo  is a simple object for retrieving the results of a DHCP request
 		DhcpInfo dhcp = mWifi.getDhcpInfo();
 		if (dhcp == null) {
-			return null;
+			return "";
 		}
 		int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
 		byte[] quads = new byte[4];
@@ -1832,6 +1916,15 @@ class jForm {
 		main.addCategory(Intent.CATEGORY_HOME);
 		main.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		controls.activity.startActivity(main);
+
+	}
+
+        public void MoveToBack() {
+               controls.activity.moveTaskToBack(true);
+        }
+
+	public void MoveTaskToBack(boolean _nonRoot) {   //the "guide line' is try to mimic java Api ...
+		controls.activity.moveTaskToBack(_nonRoot);
 	}
 
 	public void Restart(int _delay) {
@@ -1922,7 +2015,7 @@ class jForm {
 		jCommons.RequestRuntimePermission(controls, _androidPermissions, _requestCode);
 	}
 
-	//by TR3E
+	//by ADiV
 	public int GetScreenWidth( ){
 			int w = controls.appLayout.getWidth();
 			
@@ -1932,17 +2025,58 @@ class jForm {
 			return w;
 	}
 		
-	//by TR3E
+	//by ADiV
 	public int GetScreenHeight( ){
 			int h = controls.appLayout.getHeight();
 			
 			if( h <= 0 )
 				h = controls.screenHeight;
-			
+					
 			return h;
 	}
+	
+	//by ADiV
+	public boolean IsInMultiWindowMode(){
+		boolean r = false;
+		if (Build.VERSION.SDK_INT >= 24) {
+			//[ifdef_api24up]
+			if (((Activity) controls.activity).isInMultiWindowMode()) r = true;
+			//[endif_api24up]
+		}
+		return r;
+	}
+	
+	//by ADiV
+	public int GetRealScreenWidth(){
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		
+		if(displaymetrics == null) return 0;
 
-	//by TR3E
+		if (Build.VERSION.SDK_INT >= 17) {
+			//[ifdef_api17up]
+			controls.activity.getWindowManager().getDefaultDisplay().getRealMetrics(displaymetrics); //need min Api  17
+			//[endif_api17up]
+		}
+
+        return displaymetrics.widthPixels;
+	}
+	
+	//by ADiV
+	public int GetRealScreenHeight(){
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		
+		if(displaymetrics == null) return 0;
+
+		if (Build.VERSION.SDK_INT >= 17) {
+			//[ifdef_api17up]
+		     controls.activity.getWindowManager().getDefaultDisplay().getRealMetrics(displaymetrics);
+			//[endif_api17up]
+		}
+
+		return displaymetrics.heightPixels;
+	}
+
+	//by ADiV
 	public String GetSystemVersionString() {
 		return android.os.Build.VERSION.RELEASE;
 	}
@@ -2069,7 +2203,15 @@ class jForm {
 		} else {
 		 return "";	
 		}	
-	}    
+	}
+
+	public void RunOnUiThread(final int _tag) {
+        controls.activity.runOnUiThread(new Runnable() {
+            public void run() {
+                controls.pOnRunOnUiThread(PasObj, _tag);
+            };
+        });
+    }
 
 }
 //**class entrypoint**//please, do not remove/change this line!
@@ -2085,10 +2227,10 @@ public int systemVersion;
 public int screenWidth = 0;
 public int screenHeight = 0;
 
-public boolean formChangeSize = false; // OnRotate if change size or show form with rotate [by TR3E]
-public boolean formNeedLayout = false; // Automatic updatelayout [by TR3E]
+public boolean formChangeSize = false; // OnRotate if change size or show form with rotate [by ADiV]
+public boolean formNeedLayout = false; // Automatic updatelayout [by ADiV]
 
-private int javaNewId = 100000;   // To assign java id from 100001 onwards [by TR3E]
+private int javaNewId = 100000;   // To assign java id from 100001 onwards [by ADiV]
 
 public boolean isGDXGame = false; //prepare to LAMW GDXGame		
 public Object GDXGame = null;	//prepare to LAMW GDXGame
@@ -2120,13 +2262,13 @@ public native void pAppOnCreateContextMenu(ContextMenu menu);
 public native void pAppOnClickContextMenuItem(MenuItem menuItem, int itemID, String itemCaption, boolean checked);
 public native void pOnDraw(long pasobj);
 public native void pOnTouch(long pasobj, int act, int cnt, float x1, float y1, float x2, float y2);
-public native void pOnClickGeneric(long pasobj, int value);
+public native void pOnClickGeneric(long pasobj);
 public native boolean pAppOnSpecialKeyDown(char keyChar, int keyCode, String keyCodeString);
-public native void pOnDown(long pasobj, int value);
-public native void pOnUp(long pasobj, int value);
+public native void pOnDown(long pasobj);
+public native void pOnUp(long pasobj);
 public native void pOnClick(long pasobj, int value);
-public native void pOnLongClick(long pasobj, int value);
-public native void pOnDoubleClick(long pasobj, int value);
+public native void pOnLongClick(long pasobj);
+public native void pOnDoubleClick(long pasobj);
 public native void pOnChange(long pasobj, String txt, int count);
 public native void pOnChanged(long pasobj, String txt, int count);
 public native void pOnEnter(long pasobj);
@@ -2137,17 +2279,19 @@ public native void pAppOnListItemClick(AdapterView adapter, View view, int posit
 public native void pOnFlingGestureDetected(long pasobj, int direction);
 public native void pOnPinchZoomGestureDetected(long pasobj, float scaleFactor, int state);
 public native void pOnLostFocus(long pasobj, String text);
+public native void pOnFocus(long pasobj, String text);
 public native void pOnBeforeDispatchDraw(long pasobj, Canvas canvas, int tag);
 public native void pOnAfterDispatchDraw(long pasobj, Canvas canvas, int tag);
 public native void pOnLayouting(long pasobj, boolean changed);
 public native void pAppOnRequestPermissionResult(int requestCode, String permission, int grantResult);
+public native void pOnRunOnUiThread(long pasobj, int tag);
 // -------------------------------------------------------------------------------------------
 //Load Pascal Library - Please, do not edit the static content commented in the template file
 // -------------------------------------------------------------------------------------------
 static {
 try{System.loadLibrary("controls");} catch (UnsatisfiedLinkError e) {Log.e("JNI_Loading_libcontrols", "exception", e);}
-try{System.loadLibrary("crypto");} catch (UnsatisfiedLinkError e) {Log.e("JNI_Loading_libcrypto", "exception", e);}
-try{System.loadLibrary("ssl");} catch (UnsatisfiedLinkError e) {Log.e("JNI_Loading_libssl", "exception", e);}
+try{System.loadLibrary("iconv");} catch (UnsatisfiedLinkError e) {Log.e("JNI_Loading_libiconv", "exception", e);}
+try{System.loadLibrary("zbarjni");} catch (UnsatisfiedLinkError e) {Log.e("JNI_Loading_libzbarjni", "exception", e);}
 }
 // -------------------------------------------------------------------------
 //  Activity Event
@@ -2304,7 +2448,7 @@ public Context GetContext() {
    return this.activity; 
 }
 
-//by TR3E Software
+//by ADiV Software
 public int getContextTop(){
  ViewGroup view = ((ViewGroup) this.activity.findViewById(android.R.id.content));
  
@@ -2315,9 +2459,19 @@ public int getContextTop(){
 	
 }
 
-//by  TR3E Software
+//by  ADiV
 public int getStatusBarHeight() {
 	int resourceId = this.activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
+	
+	if ( resourceId > 0 )
+		return this.activity.getResources().getDimensionPixelSize(resourceId);
+	else
+		return 0;
+}
+
+//by  ADiV
+public int GetNavigationHeight() {
+	int resourceId = this.activity.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
 	
 	if ( resourceId > 0 )
 		return this.activity.getResources().getDimensionPixelSize(resourceId);
@@ -2433,7 +2587,7 @@ public  String getStrDateTime() {
 //Controls Version Info
 //-------------------------------------------
 //GetControlsVersionFeatures ...  //Controls.java version-revision info! [0.6-04]
-public  String getStrDateTime() {  //hacked by jmpessoa!! sorry, was for a good cause! please, use the  jForm_GetDateTime!!
+public  String GetControlsVersion() {  
   String listVersionInfo = 
 		  "7$0=GetControlsVersionInfo;" +  //added ... etc..
   		  "7$0=getLocale;"; //added ... etc.. 
@@ -2697,6 +2851,12 @@ public  void jToast( String str ) {
    Toast.makeText(activity, str, Toast.LENGTH_SHORT).show();
 }
 
+boolean IsEmailValid(String email) {
+	if(email == null) return false;
+	
+	return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+}
+
 //by jmpessoa
 //you need a real android device (not emulator!)
 //http://www.androidaspect.com/2013/09/how-to-send-email-from-android.html
@@ -2914,10 +3074,10 @@ private void galleryAddPic(File image_uri) {
           }
 }
 
-public String jCamera_takePhoto(String path, String filename, int requestCode) {
+public String jCamera_takePhoto(String path, String filename, int requestCode, boolean addToGallery) {
 
-	      StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder(); //by Guser97
-	      StrictMode.setVmPolicy(builder.build()); //by Guser97
+	      //StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder(); //by Guser97
+	      //StrictMode.setVmPolicy(builder.build()); //by Guser97
 
           Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
           //String  image_path = (path+File.separator+filename);
@@ -2945,6 +3105,7 @@ public String jCamera_takePhoto(String path, String filename, int requestCode) {
                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
              }
              else {
+                   jSupported.SetStrictMode(); //by Guser97
 	           intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri); //mImageCaptureUri
 	           intent.putExtra("return-data", true);
              }
@@ -2953,11 +3114,17 @@ public String jCamera_takePhoto(String path, String filename, int requestCode) {
                this.activity.startActivityForResult(intent, requestCode);
              }
 
-             galleryAddPic(newfile);
+             if (addToGallery) galleryAddPic(newfile);
+
              return newfile.toString();
           }
           else return "";
 }
+
+public String jCamera_takePhoto(String path, String filename, int requestCode) {
+       return jCamera_takePhoto(path, filename, requestCode, true);
+}
+
 
 	public String jCamera_takePhoto(String path, String filename) {
 		return jCamera_takePhoto(path, filename, 12345);
@@ -2975,19 +3142,18 @@ public String jCamera_takePhoto(String path, String filename, int requestCode) {
 //SMART LAMW DESIGNER
 //-------------------------------------------------------------------------------------------------------
 
-public java.lang.Object jActionBarTab_jCreate(long _Self) {
-   return (java.lang.Object)(new jActionBarTab(this,_Self));
+public java.lang.Object jActivityLauncher_jCreate(long _Self) {
+  return (java.lang.Object)(new jActivityLauncher(this,_Self));
 }
-public native void pOnActionBarTabSelected(long pasobj, View view, String title);
-public native void pOnActionBarTabUnSelected(long pasobj, View view, String title);
 
-public  java.lang.Object jAsyncTask_Create(long pasobj ) {
-   return (java.lang.Object)( new jAsyncTask(this,pasobj));
+public  java.lang.Object jBitmap_Create( long pasobj ) {
+   return (java.lang.Object)( new jBitmap(this,pasobj));
 }
-public native boolean pOnAsyncEventDoInBackground(long pasobj, int progress);
-public native int pOnAsyncEventProgressUpdate(long pasobj, int progress);
-public native int pOnAsyncEventPreExecute(long pasobj);
-public native void pOnAsyncEventPostExecute(long pasobj, int progress);
+
+public java.lang.Object jBroadcastReceiver_jCreate(long _Self) {
+   return (java.lang.Object)(new jBroadcastReceiver(this,_Self));
+}   
+public native void pOnBroadcastReceiver(long pasobj, Intent intent);
 
 public  java.lang.Object jButton_Create(long pasobj ) {
   return (java.lang.Object)( new jButton(this.activity,this,pasobj));
@@ -2997,21 +3163,56 @@ public  java.lang.Object jCheckBox_Create(long pasobj ) {
   return (java.lang.Object)( new jCheckBox(this.activity,this,pasobj));
 }
 
+public java.lang.Object jcToyTimerService_jCreate(long _Self) {
+  return (java.lang.Object)(new jcToyTimerService(this,_Self));
+}
+public native void pOnToyTimerServicePullElapsedTime(long pasobj, long elapsedTime);
+
+public java.lang.Object jCustomDialog_jCreate(long _Self, boolean _showTitle) {
+   return (java.lang.Object)(new jCustomDialog(this,_Self,_showTitle));
+}
+public native void pOnCustomDialogShow(long pasobj, Dialog dialog, String title);
+public native void pOnCustomDialogBackKeyPressed(long pasobj, String title);
+
+public java.lang.Object jDrawingView_jCreate(long _Self, boolean _bufferedDraw, int _backgroundColor) {
+  return (java.lang.Object)(new jDrawingView(this,_Self,_bufferedDraw, _backgroundColor));
+}
+public native void pOnDrawingViewTouch(long pasobj, int action, int countPoints, float[] arrayX, float[] arrayY, int flingGesture, int pinchZoomGestureState, float zoomScaleFactor);
+public native void pOnDrawingViewDraw(long pasobj, int action, int countPoints, float[] arrayX, float[] arrayY, int flingGesture, int pinchZoomGestureState, float zoomScaleFactor);
+public native void pOnDrawingViewSizeChanged(long pasobj, int width, int height, int oldWidth, int oldHeight);
+
 public java.lang.Object jEditText_Create(long pasobj ) {
   return (java.lang.Object)( new jEditText(this.activity,this,pasobj));
 }
+
+public java.lang.Object jGridView_jCreate(long _Self) {
+   return (java.lang.Object)(new jGridView(this,_Self));
+}
+public native void pOnClickGridItem(long pasobj, int position, String caption);
+public native void pOnLongClickGridItem(long pasobj, int position, String caption);
+public native int pOnGridDrawItemCaptionColor(long pasobj, int position, String caption);
+public native Bitmap pOnGridDrawItemBitmap(long pasobj, int position, String caption);
+
+public java.lang.Object jHttpClient_jCreate(long _Self) {
+   return (java.lang.Object)(new jHttpClient(this,_Self));
+}
+public native void pOnHttpClientContentResult(long pasobj, byte[] content);
+public native void pOnHttpClientCodeResult(long pasobj, int code);
+public native void pOnHttpClientUploadProgress(long pasobj, long progress);
+public native void pOnHttpClientUploadFinished(long pasobj, int connectionStatusCode, String connectionStatusMessage, String fullFileName);
+
+public  java.lang.Object jImageView_Create(long pasobj ) {
+  return (java.lang.Object)( new jImageView(this.activity,this,pasobj));
+}
+public native void pOnImageViewPopupItemSelected(long pasobj, String caption);
 
 public java.lang.Object jIntentManager_jCreate(long _Self) {
    return (java.lang.Object)(new jIntentManager(this,_Self));
 }      
 
-public java.lang.Object jMenu_jCreate(long _Self) {
-   return (java.lang.Object)(new jMenu(this,_Self));
-}
-
-public java.lang.Object jModalDialog_jCreate(long _Self) {
-  return (java.lang.Object)(new jModalDialog(this,_Self));
-}
+public java.lang.Object jNotificationManager_jCreate(long _Self) {
+   return (java.lang.Object)(new jNotificationManager(this,_Self));
+}   
 
 public  java.lang.Object jPanel_Create(long pasobj ) {
   return (java.lang.Object)(new jPanel(this.activity,this,pasobj));
@@ -3021,6 +3222,30 @@ public java.lang.Object jPreferences_jCreate(long _Self, boolean _IsShared) {
    return (java.lang.Object)(new jPreferences(this,_Self,_IsShared));
 }
 
+public java.lang.Object jRadioGroup_jCreate(long _Self, int _orientation) {
+   return (java.lang.Object)(new jRadioGroup(this,_Self, _orientation));
+}
+public native void pRadioGroupCheckedChanged(long pasobj, int checkedIndex, String checkedCaption);
+
+public java.lang.Object jsAppBarLayout_jCreate(long _Self) {
+  return (java.lang.Object)(new jsAppBarLayout(this,_Self));
+}
+
+public java.lang.Object jsCoordinatorLayout_jCreate(long _Self) {
+  return (java.lang.Object)(new jsCoordinatorLayout(this,_Self));
+}
+
+public java.lang.Object jScrollView_jCreate(long _Self, int _innerLayout) {
+  return (java.lang.Object)(new jScrollView(this,_Self,_innerLayout));
+}
+public native void pOnScrollViewChanged(long pasobj, int currenthorizontal, int currentVertical, int previousHorizontal, int previousVertical, int onPosition, int scrolldiff);
+public native void pOnScrollViewInnerItemClick(long pasobj, int itemId);
+public native void pOnScrollViewInnerItemLongClick(long pasobj, int index, int itemId);
+
+public java.lang.Object jsDrawerLayout_jCreate(long _Self) {
+  return (java.lang.Object)(new jsDrawerLayout(this,_Self));
+}
+
 public java.lang.Object jSeekBar_jCreate(long _Self) {
    return (java.lang.Object)(new jSeekBar(this,_Self));
 }
@@ -3028,10 +3253,44 @@ public native void pOnSeekBarProgressChanged(long pasobj,  int progress, boolean
 public native void pOnSeekBarStartTrackingTouch(long pasobj, int progress);
 public native void pOnSeekBarStopTrackingTouch(long pasobj, int progress);
 
-public java.lang.Object jSpinner_jCreate(long _Self) {
-  return (java.lang.Object)(new jSpinner(this,_Self));
+public java.lang.Object jsFloatingButton_jCreate(long _Self) {
+  return (java.lang.Object)(new jsFloatingButton(this,_Self));
 }
-public native void pOnSpinnerItemSelected(long pasobj, int position, String caption);
+
+public java.lang.Object jsNavigationView_jCreate(long _Self) {
+  return (java.lang.Object)(new jsNavigationView(this,_Self));
+}
+public native void pOnClickNavigationViewItem(long pasobj, int itemId, String itemCaption);
+
+public java.lang.Object jsRecyclerView_jCreate(long _Self, int _mode, int _direction, int _cols) {
+  return (java.lang.Object)(new jsRecyclerView(this,_Self,_mode,_direction,_cols));
+}
+public native void pOnRecyclerViewItemClick(long pasobj, int itemIndex);
+public native void pOnRecyclerViewItemLongClick(long pasobj, int itemIndex);
+public native void pOnRecyclerViewItemTouchUp(long pasobj, int itemIndex);
+public native void pOnRecyclerViewItemTouchDown(long pasobj, int itemIndex);
+public native void pOnRecyclerViewItemWidgetClick(long pasobj, int itemIndex, int widgetClass, int widgetId, int status);
+public native void pOnRecyclerViewItemWidgetLongClick(long pasobj, int itemIndex, int widgetClass, int widgetId);
+public native void pOnRecyclerViewItemWidgetTouchUp(long pasobj, int itemIndex, int widgetClass, int widgetId);
+public native void pOnRecyclerViewItemWidgetTouchDown(long pasobj, int itemIndex, int widgetClass, int widgetId);									
+
+public java.lang.Object jsTabLayout_jCreate(long _Self) {
+  return (java.lang.Object)(new jsTabLayout(this,_Self));
+}
+public native void pOnSTabSelected(long pasobj, int position, String title);
+
+public java.lang.Object jsToolbar_jCreate(long _Self, boolean _asActionBar) {
+  return (java.lang.Object)(new jsToolbar(this,_Self,_asActionBar));
+}
+
+public java.lang.Object jsViewPager_jCreate(long _Self, int _pageStrip) {
+  return (java.lang.Object)(new jsViewPager(this,_Self,_pageStrip));
+}
+
+public java.lang.Object jTelephonyManager_jCreate(long _Self) {
+  return (java.lang.Object)(new jTelephonyManager(this,_Self));
+}
+public native void pOnTelephonyCallStateChanged(long pasobj, int state, String phoneNumber);
 
 public  java.lang.Object jTextView_Create(long pasobj) {
   return (java.lang.Object)( new jTextView(this.activity,this,pasobj));
@@ -3042,8 +3301,17 @@ public  java.lang.Object jTimer_Create(long pasobj) {
 }
 public native void pOnTimer(long pasobj);
 
+public java.lang.Object jUSSDService_jCreate(long _Self) {
+  return (java.lang.Object)(new jUSSDService(this,_Self));
+}
+
 public java.lang.Object jWindowManager_jCreate(long _Self) {
   return (java.lang.Object)(new jWindowManager(this,_Self));
 }
+
+public java.lang.Object jZBarcodeScannerView_jCreate(long _Self) {
+  return (java.lang.Object)(new jZBarcodeScannerView(this,_Self));
+}
+public native void pOnZBarcodeScannerViewResult(long pasobj, String codedata, int codetype);
 
 }

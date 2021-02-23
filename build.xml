@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="databubble" default="help">
+<project name="databubble-appcompact" default="help">
 <property name="sdk.dir" location="D:\lamw\SDK\"/>
 <property name="target" value="android-29"/>
 <property file="ant.properties"/>

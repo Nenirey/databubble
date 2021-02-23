@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="D:\lamw\fpcupdeluxe\fpc\bin\x86_64-win64\fpc.exe" Date="1358251363"/>
+  <Params Value=" -MObjFPC -Scghi -O1 -g -gl -l -vewnhibq -FiD:\lamw\projects\databubble-appcompact\jni\internettools\data -FiD:\lamw\projects\databubble-appcompact\jni\lazarus\dialogs -FiD:\lamw\projects\databubble-appcompact\jni\internettools\import\synapse -FuD:\lamw\projects\databubble-appcompact\jni\internettools\data -FuD:\lamw\projects\databubble-appcompact\jni\internettools\internet -FuD:\lamw\projects\databubble-appcompact\jni\internettools\import\regexpr\source -FuD:\lamw\projects\databubble-appcompact\jni\lazarus\dialogs -FuD:\lamw\projects\databubble-appcompact\jni\internettools\import\synapse -FuD:\lamw\projects\databubble-appcompact\jni\internettools\system -FuD:\lamw\projects\components\pascal\import\flre\src -FuD:\lamw\projects\databubble-appcompact\jni\internettools\import\flre\src -FuD:\lamw\fpcupdeluxe\lazarus\packager\units\x86_64-win64 -FuD:\lamw\projects\databubble-appcompact\jni\internettools\ -FUD:\lamw\projects\databubble-appcompact\jni\internettools\lib\x86_64-win64\ internettools.pas"/>
+  <Complete Value="False" MainPPUExists="False"/>
+</CONFIG>

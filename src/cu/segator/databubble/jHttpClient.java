@@ -40,6 +40,21 @@ import android.util.Log;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 
+import java.net.URLConnection;
+import java.net.MalformedURLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.security.cert.X509Certificate;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.HttpsURLConnection;
+import java.security.SecureRandom;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
+
 /*Draft java code by "Lazarus Android Module Wizard" [2/16/2015 20:17:59]*/
 /*https://github.com/jmpessoa/lazandroidmodulewizard*/
 /*jControl template*/
@@ -111,6 +126,7 @@ public class jHttpClient /*extends ...*/ {
         pascalObj = _Self;
         controls = _ctrls;
 
+
         cookieManager = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
 
         CookieHandler.setDefault(cookieManager);   // <<------- CookieManager work automatically
@@ -138,6 +154,12 @@ public class jHttpClient /*extends ...*/ {
         new AsyncHttpClientGet().execute(_stringUrl);
         
 
+    }
+    
+    public void GetAsyncGooglePlayVersion(String _stringUrl) {
+        mUrlString = _stringUrl;
+        
+        new AsyncGooglePlay().execute(_stringUrl);
     }
 
     public void SetCharSet(String _charSet) {
@@ -1147,6 +1169,89 @@ public class jHttpClient /*extends ...*/ {
         }
 
     }
+		
+		// by ADiV
+	 	private String GetAppVersion(String patternString, String inputString) {
+	 	    try{
+	 	        //Create a pattern
+	 	        Pattern pattern = Pattern.compile(patternString);
+	 	        
+	 	        if (null == pattern)  return "";	 	        
+
+	 	        //Match the pattern string in provided string
+	 	        Matcher matcher = pattern.matcher(inputString);
+	 	        
+	 	        if ((null != matcher) && matcher.find())
+	 	            return matcher.group(1);	 	        
+
+	 	    }catch (PatternSyntaxException ex) {
+	 	        ex.printStackTrace();
+	 	    }
+
+	 	    return "";
+	 	}
+	    
+	    class AsyncGooglePlay extends AsyncTask<String, Void, String> {
+
+	        @Override
+	        protected String doInBackground(String... stringUrl) {	            	           
+	            final String currentVersion_PatternSeq = "<div[^>]*?>Current\\sVersion</div><span[^>]*?>(.*?)><div[^>]*?>(.*?)><span[^>]*?>(.*?)</span>";
+	     	    final String appVersion_PatternSeq = "htlgb\">([^<]*)</s";
+	     	    String playStoreAppVersion = "";
+
+	     	    BufferedReader inReader = null;
+	     	    URLConnection uc = null;
+	     	    StringBuilder urlData = new StringBuilder();
+	     	    
+	     	    URL url;
+	     	   
+	     	    try{
+	     	     url = new URL(stringUrl[0]);
+	     	    } catch (MalformedURLException e) {
+	     	     return "";
+	     	    }
+	     	    
+	     	    try{
+	     	     uc = url.openConnection();
+	     	     
+	     	     if(uc == null) return "";
+	     	     
+	     	     uc.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
+	     	     
+	     	     inReader = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+	     	     
+	     	     if (null != inReader) {
+	     	        String str = "";
+	     	        while ((str = inReader.readLine()) != null) {
+	     	                       urlData.append(str);
+	     	        }
+	     	     }
+	     	    
+	     	    } catch (IOException e) {
+	     	     return "";	
+	     	    }	     	    
+
+	     	    // Get the current version pattern sequence 
+	     	    String versionString = GetAppVersion(currentVersion_PatternSeq, urlData.toString());
+	     	    
+	     	    if(versionString.length() <= 0){ 
+	     	        return "";
+	     	    }else{
+	     	        // get version from "htlgb">X.X.X</span>
+	     	        playStoreAppVersion = GetAppVersion(appVersion_PatternSeq, versionString);
+	     	    }
+
+	     	    return playStoreAppVersion;	     	    
+	        }
+
+	        @Override
+	        protected void onPostExecute(String content) { //content --> playStoreAppVersion
+	            //public native void pOnHttpClientContentResult(long pasobj, byte[] content);
+	        	byte[] b = content.getBytes();
+	            controls.pOnHttpClientContentResult(pascalObj, b);
+	        }
+
+	    }
 
     // //thanks to Freris
     public void SetResponseTimeout(int _timeoutMilliseconds) {
@@ -1376,5 +1481,37 @@ public class jHttpClient /*extends ...*/ {
         unvaluedName = "SOAPBODY";
     }
 
+    ///By Segator
+    public void trustAllCertificates() {
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        public X509Certificate[] getAcceptedIssuers() {
+                            X509Certificate[] myTrustedAnchors = new X509Certificate[0];
+                            return myTrustedAnchors;
+                        }
+
+                        @Override
+                        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                        }
+
+                        @Override
+                        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                        }
+                    }
+            };
+
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String arg0, SSLSession arg1) {
+                    return true;
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
 }
 
